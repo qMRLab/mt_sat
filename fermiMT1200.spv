@@ -52,7 +52,10 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>script</key>
-			<string>SB['&lt;RF Frequency&gt;.frequencyShift'] = 1200;</string>
+			<string>SB['&lt;RF Frequency&gt;.frequencyShift'] = 1200;
+SB['&lt;Fermi RF&gt;.transitionWidth'] = SB['&lt;Fermi RF&gt;.duration']/33.81;
+SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
+</string>
 		</dict>
 	</array>
 	<key>Waveforms</key>
@@ -69,10 +72,10 @@
 					<key>anchoredToSBKey</key>
 					<string>&lt;Fermi RF&gt;.end</string>
 					<key>position</key>
-					<real>10.005805015563965</real>
+					<real>12.005805015563965</real>
 				</dict>
 				<key>area</key>
-				<real>6</real>
+				<real>8</real>
 				<key>editableName</key>
 				<string>Area Trapezoid</string>
 				<key>pluginClass</key>
@@ -119,13 +122,13 @@
 					<real>0.0</real>
 				</dict>
 				<key>duration</key>
-				<real>10.005805015563965</real>
+				<real>12.005805015563965</real>
 				<key>editableName</key>
 				<string>Fermi RF</string>
 				<key>enforceRFLimit</key>
 				<integer>1</integer>
 				<key>maxB1</key>
-				<real>0.10000000149011612</real>
+				<real>0.05000000074505806</real>
 				<key>pluginClass</key>
 				<string>SBFermiRF</string>
 				<key>pluginName</key>
@@ -137,7 +140,7 @@
 				<key>rfPhase_0_0</key>
 				<real>90</real>
 				<key>transitionWidth</key>
-				<real>0.50029027462005615</real>
+				<real>0.35509628057479858</real>
 			</dict>
 		</array>
 		<key>SequencePlugins</key>
@@ -185,11 +188,11 @@
 		<integer>0</integer>
 	</dict>
 	<key>absoluteTime</key>
-	<real>9.5956916809082031</real>
+	<real>13.079986572265625</real>
 	<key>activeInspector</key>
 	<integer>2</integer>
 	<key>appVersion</key>
-	<string>2.5.1</string>
+	<string>2.5.2</string>
 	<key>beginAtSS</key>
 	<integer>0</integer>
 	<key>chronaxie</key>
@@ -219,17 +222,17 @@
 	<key>inspectorWidth</key>
 	<real>222</real>
 	<key>magnification</key>
-	<real>1.25</real>
+	<real>0.55646932125091553</real>
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>732</integer>
+		<integer>996</integer>
 		<key>width</key>
-		<integer>1393</integer>
+		<integer>1621</integer>
 		<key>x</key>
-		<integer>-116</integer>
+		<integer>102</integer>
 		<key>y</key>
-		<integer>26</integer>
+		<integer>52</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>250</real>
@@ -259,11 +262,11 @@
 			<key>showYValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>36</real>
+			<real>310</real>
 			<key>viewHeight</key>
-			<real>615.5</real>
+			<real>615</real>
 			<key>viewLeft</key>
-			<real>639.671875</real>
+			<real>800.50390625</real>
 			<key>viewWidth</key>
 			<real>489.921875</real>
 		</dict>
@@ -287,13 +290,13 @@
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>69.5</real>
+			<real>141</real>
 			<key>viewHeight</key>
-			<real>573</real>
+			<real>774</real>
 			<key>viewLeft</key>
-			<real>153.10546875</real>
+			<real>83.14453125</real>
 			<key>viewWidth</key>
-			<real>494</real>
+			<real>669.8125</real>
 		</dict>
 		<dict>
 			<key>editableName</key>
@@ -307,11 +310,11 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-110</real>
+			<real>150</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
-			<real>66</real>
+			<real>17.26953125</real>
 			<key>viewWidth</key>
 			<real>340</real>
 		</dict>
@@ -327,33 +330,13 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>508</real>
+			<real>772</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
 			<real>0.0</real>
 			<key>viewWidth</key>
 			<real>23</real>
-		</dict>
-		<dict>
-			<key>editableName</key>
-			<string>Plot Info</string>
-			<key>pluginClass</key>
-			<string>SBPlotInfoPlugin</string>
-			<key>pluginName</key>
-			<string>Plot Info</string>
-			<key>pluginURL</key>
-			<string>[ Not Specified ]</string>
-			<key>pluginVersion</key>
-			<integer>1</integer>
-			<key>viewBottom</key>
-			<real>140.109375</real>
-			<key>viewHeight</key>
-			<real>124</real>
-			<key>viewLeft</key>
-			<real>348.17578125</real>
-			<key>viewWidth</key>
-			<real>207</real>
 		</dict>
 	</array>
 	<key>protonDensity</key>
@@ -389,9 +372,9 @@
 	<key>t2</key>
 	<real>80</real>
 	<key>timeWithinTr</key>
-	<real>9.5956916809082031</real>
+	<real>13.079986572265625</real>
 	<key>tr</key>
-	<real>10.882635116577148</real>
+	<real>13.086023330688477</real>
 	<key>trNum</key>
 	<integer>0</integer>
 	<key>waveSamplingRate</key>

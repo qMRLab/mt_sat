@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
-    <height>211</height>
+    <width>857</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,7 @@
         <string/>
        </property>
        <property name="title">
-        <string>Slice Thickness [mm]</string>
+        <string>Slab Thickness [mm]</string>
        </property>
       </widget>
      </item>
@@ -85,7 +85,7 @@
         <string/>
        </property>
        <property name="title">
-        <string>FOV [cm]</string>
+        <string>FOV Inplane [cm]</string>
        </property>
       </widget>
      </item>
@@ -93,6 +93,25 @@
    </item>
    <item row="1" column="2">
     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_TRT1">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="title">
+        <string>TR T1w [ms]</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="RthParameterInputWidget" name="inputWidget_TR">
        <property name="sizePolicy">
@@ -108,7 +127,10 @@
         <string/>
        </property>
        <property name="title">
-        <string>TR [ms]</string>
+        <string>TR PDw [ms]</string>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -269,6 +291,25 @@
    <item row="1" column="5">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_FA2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="title">
+        <string>FA PDw [deg]</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="RthParameterInputWidget" name="inputWidget_FA1">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -286,12 +327,12 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="title">
-        <string>Flip Angle 1 [deg]</string>
+        <string>FA T1w [deg]</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="RthParameterInputWidget" name="inputWidget_FA2">
+      <widget class="RthComboBox" name="offsetSelectionWidget">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -305,7 +346,10 @@
         <string/>
        </property>
        <property name="title">
-        <string>Flip Angle 2 [deg]</string>
+        <string>MT Shape | Offset [Hz]</string>
+       </property>
+       <property name="currentText">
+        <string/>
        </property>
       </widget>
      </item>
@@ -351,6 +395,12 @@
    <class>RthParameterInputWidget</class>
    <extends>QWidget</extends>
    <header>RthParameterInputWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RthComboBox</class>
+   <extends>QWidget</extends>
+   <header>RthComboBox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

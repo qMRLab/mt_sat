@@ -26,18 +26,24 @@ var xPixels = SB.readout["<Cartesian Readout>.xRes"]; // Number of samples, no n
 var phaseEncodes = SB.readout["<Cartesian Readout>.yRes"]; // Number of repeats 
 var zPartitions = SB.readout["<Phase Encode Gradient>.res"]; // Number of partitions (has attr fov as well)
 
+// Disable at the beginning so that they do not determine minimum TR
+rth.addCommand(new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false));
+rth.addCommand(new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false));
+
 // These values are changed in the SB only.
 rth.addCommand(new RthUpdateChangeReconstructionParameterCommand(sequenceId, {
   phaseEncodes: phaseEncodes,
   zPartitions: zPartitions
 }));
 
+var instanceName = rth.instanceName();
+
 // Get the sequence parameters from the sequencer.
 var scannerParameters = new RthUpdateGetParametersCommand(sequenceId);
 rth.addCommand(scannerParameters);
 var parameterList = scannerParameters.receivedData();
 
-var instanceName = rth.instanceName();
+
 
 rth.addSeriesDescription(instanceName);
 
@@ -52,6 +58,9 @@ rth.informationInsert(sequenceId, "mri.EchoTrainLength", 1);
 rth.informationInsert(sequenceId,"mri.ExcitationTimeBandwidth",SB.excitation["<Sinc RF>.timeBandwidth"]);
 rth.informationInsert(sequenceId,"mri.ExcitationDuration",SB.excitation["<Sinc RF>.duration"]);
 rth.informationInsert(sequenceId,"mri.ExcitationType","Sinc Hamming");
+rth.informationInsert(sequenceId,"mri.MTOffsetFrequency",1200);
+rth.informationInsert(sequenceId,"mri.MTPulseShape","Fermi");
+rth.informationInsert(sequenceId,"mri.MTPulseDuration",SB.mt1200["<Fermi RF>.duration"]);
 
 // Get minimum TR
 var scannerTR = new RthUpdateGetTRCommand(sequenceId, [], []);
@@ -82,15 +91,15 @@ rth.informationInsert(sequenceId,"mri.EchoTime",startingTE);
 // Assume FA from SB as the smaller.
 var startingFA2 = SB.excitation["<Sinc RF>.tip"]; //20
 // FA should be in decreasing order (FA1 > FA2)
-var startingFA1 = startingFA2 - 17;
+var startingFA1 = startingFA2 - 14;
 
 // To store the current values 
 var sliceThickness = startingThickness;
 var fieldOfView = startingFOV;
 
 //FIXME: This is temporary. Fix the order
-var flipAngle1 = startingFA2;
-var flipAngle2 = startingFA1;
+var flipAngle1 = startingFA2; // large (20 init)
+var flipAngle2 = startingFA1; // small (6 init)
 
 var echoTime = startingTE;
 var repetitionTime = startingTR;
@@ -100,7 +109,9 @@ var repetitionTime = startingTR;
 rth.importJS("lib:RthDisplayThreePlaneTools.js");
 var displayTools = new RthDisplayThreePlaneTools();
 
-// Change functions
+// This is the encoded area (larger than excited slab)
+// TODO: Change variable names and manage these guys later on.
+displayTools.setSliceThickness(startingZFOV)
 
 function changeFOV(fov){
   if (fov<startingFOV) fov = startingFOV; 
@@ -142,6 +153,8 @@ function changeSliceThickness(thickness){
 
 }
 
+// TODO: UPDATE WITH LOOP COMMANDS
+// TODO: UPDATE WITH LOOP COMMANDS TRT1 too!!
 function changeTR(tr) {
   if (tr < minTR) {
     tr = minTR;
@@ -150,15 +163,16 @@ function changeTR(tr) {
   // Method name is given by "setDesiredTR", defined in microseconds!
 
   var value = tr * 1000; // Convert from milisec to microsec
-  var trCommand = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", value);
-
-  rth.addCommand(trCommand);
-  rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RepetitionTime", tr));
+  //var trCommand = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", value);
+  //mtsLoopCommands(value,TRT1,offsetIndex)
+  //rth.addCommand(trCommand);
+  //rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RepetitionTime", tr));
 
   repetitionTime = tr;
 
 }
 
+// TODO: UPDATE WITH LOOP COMMANDS
 function changeFlipAngle1(angle1) {
   //var flipCommand = RthUpdateFloatParameterCommand(sequenceId, "sequence", "scaleRF", "", angle / startingFA1);
   //rth.addCommand(flipCommand);
@@ -167,6 +181,7 @@ function changeFlipAngle1(angle1) {
   flipAngle1 = angle1;
 }
 
+// TODO: UPDATE WITH LOOP COMMANDS
 function changeFlipAngle2(angle2){
   // Just referencing global var here.
   rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "FlipAngle2", angle2));
@@ -201,6 +216,7 @@ rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
   NumberOfCoils: parameterList[2],
   FlipAngle1:flipAngle1,
   FlipAngle2: flipAngle2,
+  FlipIndex: "on",
   PreAcqDuration: SB.readout["<Preacquisitions>.duration"]
 }));
 
@@ -213,22 +229,28 @@ controlWidget.inputWidget_FOV.minimum = startingFOV;
 controlWidget.inputWidget_FOV.maximum = startingFOV*2;
 controlWidget.inputWidget_FOV.value   = startingFOV;
 
-controlWidget.inputWidget_TR.minimum = minTR;
+// PDw and MTw
+controlWidget.inputWidget_TR.minimum = minTR + 15;
 controlWidget.inputWidget_TR.maximum = minTR + 30;
-controlWidget.inputWidget_TR.value   = minTR;
+controlWidget.inputWidget_TR.value   = 28;
+
+// T1w
+controlWidget.inputWidget_TRT1.minimum = minTR;
+controlWidget.inputWidget_TRT1.maximum = minTR + 30;
+controlWidget.inputWidget_TRT1.value   = 18;
 
 //FIXME: FA param names  
-controlWidget.inputWidget_FA1.minimum = startingFA1;
-controlWidget.inputWidget_FA1.maximum = 90;
+controlWidget.inputWidget_FA1.minimum = 3;
+controlWidget.inputWidget_FA1.maximum = 20;
 controlWidget.inputWidget_FA1.value   = startingFA2;
 //FIXME: FA param names 
-controlWidget.inputWidget_FA2.minimum = startingFA1;
-controlWidget.inputWidget_FA2.maximum = startingFA1+5;
+controlWidget.inputWidget_FA2.minimum = 3;
+controlWidget.inputWidget_FA2.maximum = 19;
 controlWidget.inputWidget_FA2.value   = startingFA1;
 
 controlWidget.inputWidget_TE.minimum = minTE;
 controlWidget.inputWidget_TE.maximum = 8;
-controlWidget.inputWidget_TE.value   = 5;
+controlWidget.inputWidget_TE.value   = 3;
 
 
 function sessionClicked(chck){
@@ -277,7 +299,71 @@ function subTextChanged(txt){
 
 }
 
+// Defaults
+function mtsLoopCommands(TRPD,TRT1,offsetIndex){
+  // MTW
+  if (offsetIndex == 0) { // 1200
+    // Both MT pulses are of the same duration and energy, shape etc. just offsets are different
+    // If more MT pulses are added to the lib, adjust accordingly.
+    RTHLOGGER_WARNING("ENABLED OFFSET 1.2kHZ");
+    var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", true);
+    var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
+    var offsetFreq = 1200;
+  } else if (offsetIndex == 1){
+    RTHLOGGER_WARNING("ENABLED OFFSET 2kHZ");
+    var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false);
+    var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", true);
+    offsetFreq = 2000;
+  }
+  var mtwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD);
+  var mtwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
+  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: true, MTOffsetFrequency: offsetFreq});
+  var mtwGroup = new RthUpdateGroup([mtwCommand1, mtwCommand2, mtwCommand3, mtwCommand4, mtwCommand5]);
+  
+  // PDW
+  var pdwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false);
+  var pdwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
+  var pdwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD); 
+  var pdwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
+  var pdwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "off", FlipIndex: "01", RepetitionTime: 0.028, MTState: false});
+  var pdwGroup = new RthUpdateGroup([pdwCommand1, pdwCommand2, pdwCommand3, pdwCommand4, pdwCommand5]);
+  
+  // T1w
+  var t1wCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false);
+  var t1wCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
+  var t1wCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRT1);
+  var t1wCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", 1); // Large
+  var t1wCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle1, MTIndex: "off", FlipIndex: "02", RepetitionTime: 0.018, MTState: false});
+  var t1wGroup = new RthUpdateGroup([t1wCommand1, t1wCommand2, t1wCommand3, t1wCommand4, t1wCommand5]);
+  
+  
+  rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
+    SubjectBIDS: controlWidget.subjectBIDS.text,
+    SessionBIDS: controlWidget.sessionBIDS.text,
+    AcquisitionBIDS: controlWidget.acqBIDS.text
+  }));
+  
+  var loopCommands = [mtwGroup, pdwGroup, t1wGroup];
+  
+  rth.setLoopCommands(sequenceId, "mtsatloop", loopCommands);
+  }
+
+function changeOffset(offsetIndex){
+  //RTHLOGGER_WARNING("Selected Offset" + idx);
+
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXED PARAMS FOR NOW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  mtsLoopCommands(28000,18000,offsetIndex)
+}
+
 // Connect UI elements to the callback functions.
+var offsetFreqs = new Array();
+offsetFreqs = ["Fermi | 1200","Fermi  | 2000"];
+controlWidget.offsetSelectionWidget.addItems(offsetFreqs);
+changeOffset(0); // Set 1200 by default
+controlWidget.offsetSelectionWidget.setNeedsAttention(true);
+
+controlWidget.offsetSelectionWidget.currentIndexChanged.connect(changeOffset);
+changeOffset(controlWidget.offsetSelectionWidget.currentIndex);
 
 controlWidget.acqBIDS.textChanged.connect(acqTextChanged);
 acqTextChanged(controlWidget.acqBIDS.text);
@@ -311,26 +397,3 @@ changeTE(controlWidget.inputWidget_TE.value);
 
 controlWidget.inputWidget_SliceThickness.valueChanged.connect(changeSliceThickness);
 changeSliceThickness(controlWidget.inputWidget_SliceThickness.value);
-
-// ADD LOOP COMMANDS
-
-var bigAngleCommand = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", 1);
-// Following sets FlipAngle to 3 when FA1 = 30 and FA2=25 
-var smallAngleCommand = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1);
-
-//rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
-//  SubjectBIDS: controlWidget.subjectBIDS.text,
-//  SessionBIDS: controlWidget.sessionBIDS.text,
-//  AcquisitionBIDS: controlWidget.acqBIDS.text
-//}));
-
-
-var infoCommand1 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle1, FlipIndex: "01"});
-var infoCommand2 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, FlipIndex: "02"});
-
-var updateGroup1 = new RthUpdateGroup([bigAngleCommand, infoCommand1]);
-var updateGroup2 = new RthUpdateGroup([smallAngleCommand, infoCommand2]);
-
-var loopCommands = [updateGroup1, updateGroup2];
-
-rth.setLoopCommands(sequenceId, "tiploop", loopCommands);

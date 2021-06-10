@@ -1,5 +1,5 @@
 [Application]
-defaultName = SPGR MT
+defaultName = MTSAT
 interface = lib:threeplane.ui
 continuous = 0
 sharedSlot = Real-Time
@@ -8,11 +8,17 @@ controlScript = control.js
 reconScript = recon.js
 singleJSEngine = false
 continuous = 0
-exclusiveRuns = 2
+exclusiveRuns = 3
 
-[mt]
+[mt1200]
 type=waveform
 file = fermiMT1200.spv
+allowDisable = true
+
+[mt2000]
+type=waveform
+file = fermiMT2000.spv
+allowDisable = true
 
 [excitation]
 type = waveform
@@ -26,7 +32,7 @@ duration = 2000
 
 [readout]
 type = waveform
-file = CartesianReadout3D.spv
+file = CartesianReadout3D_test.spv
 loopIndex = 0
 associatedRF = excitation
 
@@ -34,7 +40,7 @@ associatedRF = excitation
 type = waveform
 file = SpoilerGradient.spv
 
-[tiploop]
+[mtsatloop]
 type = loop
-maximumIndex = 2
+maximumIndex = 3
 loopIndex  = 1
