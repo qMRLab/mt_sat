@@ -32,7 +32,7 @@ duration = 2000
 
 [readout]
 type = waveform
-file = CartesianReadout3D_test.spv
+file = CartesianReadout3D.spv
 loopIndex = 0
 associatedRF = excitation
 
