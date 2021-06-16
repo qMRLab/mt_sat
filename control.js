@@ -27,6 +27,9 @@ var phaseEncodes = SB.readout["<Cartesian Readout>.yRes"]; // Number of repeats
 var zPartitions = SB.readout["<Phase Encode Gradient>.res"]; // Number of partitions (has attr fov as well)
 
 // Disable at the beginning so that they do not determine minimum TR
+// This part is a bit tricky, if you enable 1200 here by default, the minimum TR
+// at the beginning of the app will assume MTC on, then T1w won't be able to set 
+// a shorter TR or min TR for MT and PD will be longer than what you want.
 rth.addCommand(new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false));
 rth.addCommand(new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false));
 
@@ -55,34 +58,31 @@ rth.informationInsert(sequenceId, "mri.MRAcquisitionType", "3D");
 rth.informationInsert(sequenceId, "mri.NumberOfAverages", 1);
 rth.informationInsert(sequenceId, "mri.NumberOfCoils", parameterList[2]);
 rth.informationInsert(sequenceId, "mri.EchoTrainLength", 1);
-rth.informationInsert(sequenceId,"mri.ExcitationTimeBandwidth",SB.excitation["<Sinc RF>.timeBandwidth"]);
-rth.informationInsert(sequenceId,"mri.ExcitationDuration",SB.excitation["<Sinc RF>.duration"]);
-rth.informationInsert(sequenceId,"mri.ExcitationType","Sinc Hamming");
-rth.informationInsert(sequenceId,"mri.MTOffsetFrequency",1200);
-rth.informationInsert(sequenceId,"mri.MTPulseShape","Fermi");
-rth.informationInsert(sequenceId,"mri.MTPulseDuration",SB.mt1200["<Fermi RF>.duration"]);
+rth.informationInsert(sequenceId, "mri.ExcitationTimeBandwidth",SB.excitation["<Sinc RF>.timeBandwidth"]);
+rth.informationInsert(sequenceId, "mri.ExcitationDuration",SB.excitation["<Sinc RF>.duration"]);
+rth.informationInsert(sequenceId, "mri.ExcitationType","SINC Hamming");
 
 // Get minimum TR
 var scannerTR = new RthUpdateGetTRCommand(sequenceId, [], []);
 rth.addCommand(scannerTR);
 var minTR = scannerTR.tr();
 var startingTR = minTR;
-RTHLOGGER_WARNING("Minimum TR: " + minTR);
+RTHLOGGER_WARNING("MTSAT Minimum TR: " + minTR);
 
 // Starting FOV also depends on CartesianReadout3D.spv
 // In SpinBench, FOV is defined in cm. xFOV = yFOV always. 
 var startingFOV = SB.readout["<Cartesian Readout>.fov"]; // cm
-var startingZFOV = SB.readout["<Phase Encode Gradient>.fov"]; //cm
+var startingZFOV = SB.readout["<Phase Encode Gradient>.fov"]*10; //mm
 
 // Slice thickness depends on SlabSelect.spv
 // In SpinBench, SliceThickness is defined in mm.
 // RF pulse is associated with the gradient. Changes in SSG updates RF as well. 
 var startingThickness = SB.excitation["<Slice Select Gradient>.thickness"]; // mm
 // Insert metadata
-rth.informationInsert(sequenceId,"mri.SliceThickness",startingThickness);
+rth.informationInsert(sequenceId,"mri.SliceThickness",startingZFOV/zPartitions);
 var startingResolution = startingFOV/xPixels* 10; // mm
 
-rth.informationInsert(sequenceId,"mri.VoxelSpacing",[startingResolution*10,startingResolution*10,startingZFOV/zPartitions*10]);
+rth.informationInsert(sequenceId,"mri.VoxelSpacing",[startingResolution*10,startingResolution*10,startingZFOV/zPartitions]);
 // Specify TE delay interval 
 var minTE = SB.excitation['<Sinc RF>.end'] - SB.excitation['<Sinc RF>.peak'] + SB.readout['<Cartesian Readout>.readoutCenter'];
 var startingTE = minTE + rth.apdKey("echodelay/duration")/1000; //ms
@@ -95,6 +95,7 @@ var startingFA1 = startingFA2 - 14;
 
 // To store the current values 
 var sliceThickness = startingThickness;
+var encodedThickness = startingZFOV;
 var fieldOfView = startingFOV;
 
 //FIXME: This is temporary. Fix the order
@@ -111,18 +112,18 @@ var displayTools = new RthDisplayThreePlaneTools();
 
 // This is the encoded area (larger than excited slab)
 // TODO: Change variable names and manage these guys later on.
-displayTools.setSliceThickness(startingZFOV)
+//displayTools.setSliceThickness(startingZFOV) //mm
 
 function changeFOV(fov){
   if (fov<startingFOV) fov = startingFOV; 
   var scale = startingFOV/fov;
   // Scale gradients (x,y,z) assuming in-plane isometry
-  rth.addCommand(new RthUpdateScaleGradientsCommand(sequenceId,"readout",scale,scale, startingThickness/sliceThickness));
+  rth.addCommand(new RthUpdateScaleGradientsCommand(sequenceId,"readout",scale,scale, startingZFOV/encodedThickness));
   // Waveforms are not affected by the below: 
   rth.addCommand(new RthUpdateChangeResolutionCommand(sequenceId,startingResolution/scale));
   rth.addCommand(new RthUpdateChangeFieldOfViewCommand(sequenceId, fov*10,fov*10,startingThickness));
   // Annotation
-  displayTools.setFOV(fov * 10);
+  displayTools.setFOV(fov * 10); //mm
   //displayTool.setResolution(startingResolution/scale,startingResolution/scale);
   // Update
   fieldOfView = fov;
@@ -130,26 +131,35 @@ function changeFOV(fov){
 
 
 
-function changeSliceThickness(thickness){
-  if (thickness < startingThickness) thickness = startingThickness;
+function changeSliceThickness(encodedZ){
+  // The value user provides interacts with the ZFOV. The ratio between 
+  // Encoded and the Excited slab is 0.8. So whatever ZFOV user selects, 
+  // that*0.83 will be the new excited slab thickness. 
 
+  if (encodedZ < startingZFOV) encodedZ = startingZFOV;
+  
+  var encFactor = 50/60;
   // Scale SS gradient
   // The scaling is always performed with respect to the STARTING VALUE (1). Factors must be always smaller than 1.
-  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId,"excitation","scaleGradients","",startingThickness/thickness));
+
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId,"excitation","scaleGradients","",startingThickness/(encodedZ*encFactor)));
 
   // If the slice thickness is increased, so should the zFOV (by scaling down z-grad)
-  rth.addCommand(new RthUpdateScaleGradientsCommand(sequenceId,"readout",startingFOV/fieldOfView,startingFOV/fieldOfView,startingThickness/thickness));
+  rth.addCommand(new RthUpdateScaleGradientsCommand(sequenceId,"readout",startingFOV/fieldOfView,startingFOV/fieldOfView,startingZFOV/encodedZ));
 
   // Update slice prescription UI tools (the green lines in the UI)
-  displayTools.setSliceThickness(thickness);
+  // Semantics: In 3D this is actually "SLAB THICKNESS" the following updates prescription, so that we see the proper scaling.
+  displayTools.setSliceThickness(encodedZ);
+  
   // Update metadata.
-  rth.informationInsert(sequenceId,"mri.SliceThickness",thickness);
-  rth.addCommand(new RthUpdateChangeFieldOfViewCommand(sequenceId, fieldOfView*10,fieldOfView*10,thickness));
-  rth.addCommand(new RthUpdateChangeSliceThicknessCommand(sequenceId, thickness));
-  // zFOV is not equal to the slice thickness, it has a padding of 10mm. Not sure why, but this 
-  // was the convention in other 3D waveforms I saw, so I followed. 
-  rth.informationInsert(sequenceId,"mri.VoxelSpacing",[fieldOfView/xPixels*10,fieldOfView/phaseEncodes*10,(startingZFOV*thickness/startingThickness)/zPartitions*10]);
-  sliceThickness = thickness;
+  rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
+    SliceThickness:encodedZ/zPartitions,
+    VoxelSpacing: [fieldOfView/xPixels*10,fieldOfView/phaseEncodes*10,encodedZ/zPartitions]
+  }));
+
+  rth.addCommand(new RthUpdateChangeFieldOfViewCommand(sequenceId, fieldOfView*10,fieldOfView*10,encodedZ));
+
+  encodedThickness = encodedZ;
 
 }
 
@@ -192,7 +202,7 @@ function changeFlipAngle2(angle2){
 function changeTE(te)
 {
   
-  rth.informationInsert(sequenceId,"mri.EchoTime",te);
+  rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "EchoTime", te));
   rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "EchoTime", te));
 
   var echoDelay = (te - minTE) * 1000; // Convert to usec
@@ -221,9 +231,9 @@ rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
 }));
 
 
-controlWidget.inputWidget_SliceThickness.minimum = startingThickness;
-controlWidget.inputWidget_SliceThickness.maximum = startingThickness*2;
-controlWidget.inputWidget_SliceThickness.value   = startingThickness;
+controlWidget.inputWidget_SliceThickness.minimum = startingZFOV;
+controlWidget.inputWidget_SliceThickness.maximum = startingZFOV*2;
+controlWidget.inputWidget_SliceThickness.value   = startingZFOV;
 
 controlWidget.inputWidget_FOV.minimum = startingFOV;
 controlWidget.inputWidget_FOV.maximum = startingFOV*2;
@@ -309,15 +319,29 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
     var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", true);
     var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
     var offsetFreq = 1200;
+    var duration = SB.mt1200["<Fermi RF>.duration"];
   } else if (offsetIndex == 1){
     RTHLOGGER_WARNING("ENABLED OFFSET 2kHZ");
     var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", false);
     var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", true);
-    offsetFreq = 2000;
+    var duration = SB.mt1200["<Fermi RF>.duration"];
+    var offsetFreq = 2000;
   }
+  else
+  {
+    // When the dropdown menu is initialized, the first arg passed is not 0 or 1.
+    // So on init, code hits this condition, where we'll enable mt1200 block.
+    RTHLOGGER_WARNING("Initializing...");
+    RTHLOGGER_WARNING("ENABLED OFFSET 1.2kHZ");
+    var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", true);
+    var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
+    var offsetFreq = 1200;
+    var duration = SB.mt1200["<Fermi RF>.duration"];
+  }
+  
   var mtwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD);
   var mtwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: true, MTOffsetFrequency: offsetFreq});
+  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: true, MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
   var mtwGroup = new RthUpdateGroup([mtwCommand1, mtwCommand2, mtwCommand3, mtwCommand4, mtwCommand5]);
   
   // PDW
@@ -359,7 +383,6 @@ function changeOffset(offsetIndex){
 var offsetFreqs = new Array();
 offsetFreqs = ["Fermi | 1200","Fermi  | 2000"];
 controlWidget.offsetSelectionWidget.addItems(offsetFreqs);
-changeOffset(0); // Set 1200 by default
 controlWidget.offsetSelectionWidget.setNeedsAttention(true);
 
 controlWidget.offsetSelectionWidget.currentIndexChanged.connect(changeOffset);

@@ -3,18 +3,7 @@
 This script is responsible for collecting raw data 
 and reconstructing images. 
  
-Waveforms exported by SpinBench and described by application.apd
-determine the initial state of the sequence. For this 
-application, initial parameters are fetched from: 
-
-- [excitation] SincRF + Z (SlabSelect.spv)
-- [echodelay] in us, to be exposed to GUI. (Not linked to a file)
-- [readout] 3D Cartesian Readout (CartesianReadout3D.spv)
-- [spoiler] Area Trapezoid  (SpoilerGradient.spv)
-
-For now, base resolution components are hardcoded to be 
-256X256mm (inplane) and 5mm (slab thickness) for the 
-3D readout. 
+TO BE UPDATED
 
 TODO: These parameters are to be fetched from controller. 
 
@@ -35,21 +24,6 @@ observer.scanDisabled.connect(rth.deactivateScanButton);
 function reconBlock(input) {
   
   var that  = this;
-  //this.sort = new RthReconRawToImageSort();
-  
-  //this.sort.observeKeys(["acquisition.samples","reconstruction.phaseEncodes","reconstruction.partitions"]);
-  //this.sort.observedKeysChanged.connect(function(keys){
-   // that.sort.setPhaseEncodes(keys["reconstruction.phaseEncodes"]);
-    //that.sort.setSamples(keys["acquisition.samples"]);
-    //that.sort.setSliceEncodes(keys["reconstruction.zPartitions"]);
-    //that.sort.setAccumulate(keys["reconstruction.phaseEncodes"]*keys["reconstruction.zPartitions"]);
-  //});
-
-
-//this.scanNotification = rth.newNotification();
-//this.scanProgress = this.scanNotification.addProgressBar("MTsat");
-//this.scanNotification.text = instanceName;
-//this.scanNotification.enqueue();
 
  this.sort3d = new RthReconSort();
  this.sort3d.setIndexKeys(["acquisition.<Cartesian Readout>.index", "acquisition.<Repeat 1>.index"]);
@@ -63,27 +37,11 @@ function reconBlock(input) {
     //var coils = keys["acquisition.channels"];
     var zEncodes = keys["reconstruction.zPartitions"];
     //this.sort3d.extent = [samples, coils, yEncodes, zEncodes]; // if the input is [samples x coils]
-    that.sort3d.extent = [samples, yEncodes, zEncodes]; // if the input is [samples]
+    that.sort3d.extent = [samples, yEncodes, zEncodes];
     that.sort3d.accumulate = yEncodes * zEncodes;
   }
 );
 
-  
-  //this.sort = RthReconSort();
-  //this.sort.setIndexKeys(["acquisition.index"]);
-  //this.sort.setInput(input);
-  //this.sort.setUseSliceEncodeKey(false);
-  //this.sort.setSwapSePe(true);
-  //this.sort.observeKeys(["acquisition.slice", "acquisition.index"]);
-  //this.sort.observedKeysChanged.connect(function(keys){
-    //RTHLOGGER_WARNING("Slice" + keys["acquisition.slice"] + "index" + keys["acquisition.index"]);
-  //});
-  //this.sort.observeKeys(["acquisition.<Repeat 1>.index"]);
-  //this.sort.observedKeysChanged.connect(function(keys){
-  //  RTHLOGGER_WARNING("Slice" + keys["acquisition.<Repeat 1>.index"]);
-  //});
-  //this.sort.setExtent([256,256])
-  //this.sort.setAccumulate(2*256);
   this.fft = new RthReconImageFFT();
   this.fft.setInput(this.sort3d.output());
   // Disable after FFT node
@@ -93,7 +51,6 @@ function reconBlock(input) {
 }
 
 // For each `coil we need sort and FFT.
-
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
@@ -206,7 +163,7 @@ this.imageExport.observeKeys([
 
 this.imageExport.observedKeysChanged.connect(function(keys){
 
-    var exportDirectory = "/home/agah/Desktop/AgahHV/";
+    var exportDirectory = "~/Desktop/qmrlabAcq/rthRecon/";
     var flipIndex = keys["mri.FlipIndex"];
     var MTIndex = keys["mri.MTIndex"];
     var subjectBIDS  = "sub-" + keys["mri.SubjectBIDS"];
@@ -216,30 +173,10 @@ this.imageExport.observedKeysChanged.connect(function(keys){
     that.imageExport.setFileName(exportFileName);
     RTHLOGGER_WARNING(exportFileName);
     RTHLOGGER_WARNING("FA:" + keys["mri.FlipAngle"] + "TR:" + keys["mri.RepetitionTime"] + "MT:" + keys["mri.MTState"]);
-
   });
-  
-  //this.imageExport.observeKeys(["mri.RunNumber", // Ensured that this one will change per run.
-  //                              "mri.SubjectBIDS",
-  //                              "mri.SessionBIDS",
-  //                              "mri.AcquisitionBIDS"  
-  //]);
-  //this.imageExport.observedKeysChanged(function(keys){
-  //  var flipIndex = keys["mri.RunNumber"] + 1;
-  //  var subjectBIDS  = "sub-" + keys["mri.SessionBIDS"]; 
-  //  var sessionBIDS = (keys["mri.SessionBIDS"]!=="") ? "_ses-" + keys["mri.SessionBIDS"] : "";
-  //  var acquisitionBIDS = (keys["mri.AcquisitionBIDS"]!=="") ? "_acq-" + keys["mri.AcquisitionBIDS"] : "";
-  //});
 
-  //var exportDirectory = "/home/agah/Desktop/AgahHV/";
-  //var exportFileName  = exportDirectory + subjectBIDS + sessionBIDS + acquisitionBIDS + "_flip-" + flipIndex + '_VFAT1.dat';
   this.imageExport.objectName = "save_image";
-  
   this.imageExport.setInput(input);
-  
-  RTHLOGGER_WARNING("saving...");
-
-  //this.imageExport.saveFileSeries(true);
 
   // This is a sink node, hence no output.
 }
@@ -248,7 +185,6 @@ this.imageExport.observedKeysChanged.connect(function(keys){
 var splitter = RthReconSplitter();
 splitter.objectName = "splitOutput";
 splitter.setInput(sos.output());
-
 
 var threePlane = new RthImageThreePlaneOutput();
 threePlane.setInput(splitter.output(0));
