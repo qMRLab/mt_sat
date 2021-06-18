@@ -40,6 +40,21 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>editableName</key>
+			<string>JavaScript</string>
+			<key>pluginClass</key>
+			<string>SBJavaScriptPlugin</string>
+			<key>pluginName</key>
+			<string>JavaScript Relationship</string>
+			<key>pluginURL</key>
+			<string>http://www.SpinBench.com/</string>
+			<key>pluginVersion</key>
+			<integer>1</integer>
+			<key>script</key>
+			<string>SB['&lt;Repeat 1&gt;.repetitions'] = SB['&lt;Phase Encode Gradient&gt;.res'];
+SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.res'];</string>
+		</dict>
 	</array>
 	<key>Waveforms</key>
 	<dict>
@@ -334,13 +349,13 @@
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>935</integer>
+		<integer>734</integer>
 		<key>width</key>
-		<integer>1466</integer>
+		<integer>1280</integer>
 		<key>x</key>
-		<integer>-8</integer>
+		<integer>0</integer>
 		<key>y</key>
-		<integer>94</integer>
+		<integer>43</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>500</real>
@@ -370,7 +385,7 @@
 			<key>showYValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>603</real>
+			<real>402</real>
 			<key>viewHeight</key>
 			<real>253</real>
 			<key>viewLeft</key>
@@ -398,7 +413,7 @@
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>319</real>
+			<real>118</real>
 			<key>viewHeight</key>
 			<real>402</real>
 			<key>viewLeft</key>
@@ -418,7 +433,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>121</real>
+			<real>-80</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -438,7 +453,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>708</real>
+			<real>507</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
@@ -458,7 +473,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>619</real>
+			<real>418</real>
 			<key>viewHeight</key>
 			<real>251</real>
 			<key>viewLeft</key>
@@ -486,7 +501,7 @@
 			<key>showValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-27</real>
+			<real>-228</real>
 			<key>viewHeight</key>
 			<real>676</real>
 			<key>viewLeft</key>
@@ -510,7 +525,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>437</real>
+			<real>236</real>
 			<key>viewHeight</key>
 			<real>223</real>
 			<key>viewLeft</key>

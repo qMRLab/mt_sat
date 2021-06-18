@@ -163,7 +163,7 @@ this.imageExport.observeKeys([
 
 this.imageExport.observedKeysChanged.connect(function(keys){
 
-    var exportDirectory = "~/Desktop/qmrlabAcq/rthRecon/";
+    var exportDirectory = "qMRLabAcq/rthRecon/";
     var flipIndex = keys["mri.FlipIndex"];
     var MTIndex = keys["mri.MTIndex"];
     var subjectBIDS  = "sub-" + keys["mri.SubjectBIDS"];
