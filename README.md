@@ -1,32 +1,23 @@
-## Intro
+## RTHawk Application - Magnetization Transfer Saturation
 
-The variable flip angle (VFA) implementation of [qMRLab](https://qmrlab.org) takes following as input:
-* Data
-     * `VFAData`: [vol X N] image data where N is # of FAs.
-     * `B1map`: [vol] b1 transmit field map
-     * `Mask`: [vol] binary ROI mask
-* Parameters
-    * `FA`: [1 X N] array
-    * `TR`: [1 X N] array
+## Required configurations 
 
-For details you can see the interactive [`vfa_t1`](https://qmrlab.readthedocs.io/en/master/vfa_t1_batch.html) tutorial [executable online](https://qmrlab.org/jekyll/2018/12/11/T1-mapping-variable-flip-angle.html).
+No special configuration is required. 
 
-For creating B1map, double angle method is also available in qMRLab: [`b1_dam`](https://qmrlab.readthedocs.io/en/master/b1_dam_batch.html).
+## Steps 
 
-***
+1. Clone this repository to the `HeartVista/Applications` directory
+2. Create the following folders and subfolders under `HeartVista/Storage` directory
+```
+├── /RawImage
+    └── /qMRLabAcq  
+        ├── /rthRecon
+        └── /rthRaw 
+```
+3. Add `MTSAT` to a protocol
+4. Connect RTHawk to the scanner as usual 
+5. Start the scan. It will iterate over neccesary acquisitions. 
 
-## Pulse sequence implementation 
+## BIDS panel 
 
-### Sequence components 
-
-### Scan control 
-
-### Reconstruction 
-
-
-***
-
-
-
-
-
+You can define `subject`, `session` and `acquisition` BIDS values for a scan. Note that output data (`*.dat`) will be saved in [BIDS compatible file names and metadata fields](https://bids-specification.readthedocs.io/en/latest/99-appendices/10-file-collections.html). Please make sure that you provide a unique subject/session ID per scan. 
