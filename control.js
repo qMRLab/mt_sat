@@ -80,6 +80,7 @@ var startingZFOV = SB.readout["<Phase Encode Gradient>.fov"]*10; //mm
 var startingThickness = SB.excitation["<Slice Select Gradient>.thickness"]; // mm
 // Insert metadata
 rth.informationInsert(sequenceId,"mri.SliceThickness",startingZFOV/zPartitions);
+rth.informationInsert(sequenceId,"mri.ExcitationSlabThickness",startingZFOV);
 var startingResolution = startingFOV/xPixels* 10; // mm
 
 rth.informationInsert(sequenceId,"mri.VoxelSpacing",[startingResolution*10,startingResolution*10,startingZFOV/zPartitions]);

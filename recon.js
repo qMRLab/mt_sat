@@ -25,9 +25,17 @@ function reconBlock(input) {
   
   var that  = this;
 
+  this.attenSplit = new RthReconSplitter();
+  this.attenSplit.objectName = "Atten Split ";
+  this.attenSplit.setInput(input);
+
+  this.attenOutput = function() {
+    return this.attenSplit.output(0);
+  };
+
  this.sort3d = new RthReconSort();
  this.sort3d.setIndexKeys(["acquisition.<Cartesian Readout>.index", "acquisition.<Repeat 1>.index"]);
- this.sort3d.setInput(input);
+ this.sort3d.setInput(this.attenSplit.output(1));
  this.sort3d.observeKeys(["mri.RunNumber"]);
  this.sort3d.observedKeysChanged.connect(
   function(keys) {
@@ -54,11 +62,20 @@ function reconBlock(input) {
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
+var rxAtten = new RthReconRawApplyRxAttenuation();
+rxAtten.objectName = "Rx Atten";
+rxAtten.lowerLimit = 0.3;
+rxAtten.upperLimit = 0.75;
+rxAtten.newAttenuation.connect(function(newAtten) {
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
+});
+
 function connectCoils(coils){
   block = [];
   for (var i = 0; i<coils; i++){
     block[i] = new reconBlock(observer.output(i));
     sos.setInput(i,block[i].output());
+    rxAtten.setInput(i, block[i].attenOutput());
   }
  rth.collectGarbage();
 }
@@ -76,11 +93,11 @@ function ExportBlock(input){
   this.imageExport = new RthReconImageExport();
 
   this.changeInformation = new RthReconImageChangeInformation();
-
-  var reconKeys = new Array();
   
-  reconKeys = [
-    // For now, addTag does not support type string. 
+  // Generic keys
+  this.reconKeys = new Array();
+  this.reconKeys = [
+    // Sequence-specific keys
     "mri.SequenceName",
     "mri.ScanningSequence",
     "mri.SequenceVariant",
@@ -98,12 +115,19 @@ function ExportBlock(input){
     "mri.RepetitionTime",
     "mri.FlipAngle1",
     "mri.FlipAngle2",
-    "mri.FlipAngle", // Belonging to the current loop
+    "mri.FlipAngle",
     "mri.SliceThickness",
     "reconstruction.phaseEncodes",
     "acquisition.samples",
     "reconstruction.zPartitions",
     "mri.PreAcqDuration",
+    "mri.FlipIndex",
+    "mri.MTIndex",
+    "mri.SubjectBIDS",
+    "mri.SessionBIDS",
+    "mri.AcquisitionBIDS",
+    "mri.ExcitationSlabThickness",
+    // Generic RTHawk keys
     "geometry.TranslationX",
     "geometry.TranslationY",
     "geometry.TranslationZ",
@@ -114,41 +138,253 @@ function ExportBlock(input){
     "geometry.FieldOfViewX",
     "geometry.FieldOfViewY",
     "geometry.FieldOfViewZ",
-    "mri.FlipIndex", // Ensured that this one will change per run.
-    "mri.MTIndex",
-    "mri.SubjectBIDS",
-    "mri.SessionBIDS",
-    "mri.AcquisitionBIDS",
+    "equipment.StationName",
+    "equipment.regulatory/chronaxie",
+    "equipment.regulatory/coilSar",
+    "equipment.regulatory/extremityCoilSar",
+    "equipment.regulatory/extremityPeakSar",
+    "equipment.regulatory/governingBody",
+    "equipment.regulatory/operatingMode",
+    "equipment.regulatory/peakSar",
+    "equipment.regulatory/reillyPercentage",
+    "equipment.regulatory/rheobase",
+    "equipment.regulatory/sarScaleFactor",
+    "equipment.regulatory/sarUnits",
+    "equipment.regulatory/wbSar",
+    "equipment.rf/acquisitionDelayResolution",
+    "equipment.rf/bodyMaxAvgPower",
+    "equipment.rf/localMaxDutyCycle",
+    "equipment.rf/localRatedPower",
+    "equipment.rf/maxReadoutBw",
+    "equipment.rf/maxUniqueReadouts",
+    "equipment.rf/rxChannels",
+    "equipment.rf/samplingPeriod",
+    "equipment.device/acquisitionHost",
+    "equipment.coils",
+    "equipment.bootTime",
+    "equipment.activationDate",
     "equipment.device/manufacturer",
     "equipment.device/manufacturerModelName",
+    "equipment.device/deviceSerialNumber",
     "equipment.device/softwareVersions",
+    "equipment.device/canChangeDemodulationDelay",
+    "equipment.device/controlConnectionBigEndian",
+    "equipment.general/apiVersion",
+    "equipment.general/currentDateTime",
+    "equipment.general/serverVersion",
     "equipment.gradient/dcGain",
+    "equipment.gradient/gContIRms",
+    "equipment.gradient/nominalRmsGradientLimit",
+    "equipment.gradient/nominalRmsSlewSlope",
+    "equipment.gradient/samplingPeriod",
+    "equipment.gradient/xDbdtDistance",
     "equipment.gradient/xMaximumAmplitude",
     "equipment.gradient/xRiseTime",
-    "equipment.gradient/xDbdtDistance",
-    "equipment.hostManufacturerModelName",
-    "equipment.hostSoftwareVersions",
+    "equipment.gradient/xShimRes",
+    "equipment.gradient/xWarpCoefficients",
+    "equipment.gradient/yDbdtDistance",
+    "equipment.gradient/yMaximumAmplitude",
+    "equipment.gradient/yRiseTime",
+    "equipment.gradient/yShimRes",
+    "equipment.gradient/yWarpCoefficients",
+    "equipment.gradient/zDbdtDistance",
+    "equipment.gradient/zMaximumAmplitude",
+    "equipment.gradient/zRiseTime",
+    "equipment.gradient/zShimRes",
+    "equipment.gradient/zWarpCoefficients",
+    "equipment.hardwareAddress",
+    "equipment.InstitutionAddress",
+    "equipment.InstitutionalDepartmentName",
+    "equipment.InstitutionName",
+    "equipment.licenseType",
     "equipment.magnet/fieldStrength",
-    "equipment.prescan/cf",
+    "equipment.udiLIC",
+    "equipment.udiPCNMajor",
+    "equipment.udiPCNPrefix",
+    "equipment.udiUMID",
+    "equipment.prescan/refVoltage",
+    "equipment.prescan/tg",
     "equipment.prescan/maxB1",
+    "equipment.prescan/cf",
     "equipment.prescan/nucleus",
     "equipment.prescan/r1",
     "equipment.prescan/r2",
     "equipment.prescan/refPulseInGauss",
-    "equipment.prescan/refVoltage",
     "equipment.prescan/status",
-    "equipment.prescan/tg",
     "equipment.prescan/xs",
     "equipment.prescan/ys",
     "equipment.prescan/zs",
-    "equipment.regulatory/peakSar",
+    "equipment.hostManufacturerModelName",
+    "equipment.hostSoftwareVersions",
+    "equipment.magnet/fieldStrength",
+    "acquisition.peakAmplitude",
+    "acquisition.readoutReferencePoint",
+    "acquisition.resolution",
+    "acquisition.samples",
+    "acquisition.samplingRate",
+    "acquisition.SequenceId",
+    "acquisition.slice",
+    "acquisition.triggerCount",
+    "acquisition.triggerLead",
+    "acquisition.timesincetrig",
+    "acquisition.view",
+    "patient.AdditionalPatientHistory",
+    "patient.PatientAge",
+    "patient.PatientBirthDate",
+    "patient.PatientDisplayName",
+    "patient.PatientID",
+    "patient.PatientName",
+    "patient.PatientSex",
+    "patient.PatientWeight",
+    "reconstruction.loopIndexNames",
+    "reconstruction.blockNames",
+    "series.interfaceState", 
+    "series.Modality",
+    "series.offsetFromUTC",
+    "series.PatientPosition",
+    "series.PrescribedGeometry",
+    "series.ProtocolName",
+    "series.SeriesDescription",
+    "series.timezone",
+    "exportedSeries.BodyPartExamined",
+    "exportedSeries.FrameOfReferenceUID",
+    "study.DBdtMode",
+    "study.ImagedNucleus",
+    "study.MagneticFieldStrength",
+    "study.ReceiveCoilName",
+    "study.StudyDate",
+    "study.StudyDescription",
+    "study.StudyTime",
+    "equipment.prescan/cf",
   ];
 
+  // Siemens specific keys 
+  this.siemensKeys = new Array();
+  this.siemensKeys = [
+    "equipment.gradient/siemens/asCOMP_0/tModuleName",
+    "equipment.gradient/siemens/asCOMP_0/tName",
+    "equipment.gradient/siemens/asGPAParameters_0/ai32GradRegX_0",
+    "equipment.gradient/siemens/asGPAParameters_0/ai32GradRegY_0",
+    "equipment.gradient/siemens/asGPAParameters_0/ai32GradRegZ_0",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradClipRiseTime",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMaxAmplAbsolute",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMaxAmplFast",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMaxAmplNominal",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMaxAmplNormal",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMaxAmplWhisper",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMinRiseTimeAbsolute",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMinRiseTimeAbsolute",
+    "equipment.gradient/siemens/asGPAParameters_0/flDefGradMinRiseTimeFast",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradDelayX",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradDelayY",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradDelayZ",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradSensitivityX",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradSensitivityY",
+    "equipment.gradient/siemens/asGPAParameters_0/flGradSensitivityZ",
+    "equipment.gradient/siemens/asGPAParameters_0/flSysMaxAmplAbsolute_0",
+    "equipment.gradient/siemens/asGPAParameters_0/flSysMaxAmplAbsolute_1",
+    "equipment.gradient/siemens/asGPAParameters_0/flSysMaxAmplAbsolute_2",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flFoVMax",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flFreqDependentResistanceLinear",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flFreqDependentResistanceQuadratic",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flGScaleFactorX",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flGScaleFactorY",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/flGScaleFactorZ",
+    "equipment.gradient/siemens/asGPAParameters_0/sGCParameters/tType",
+    "equipment.gradient/siemens/asGPAParameters_0/tType",
+    "equipment.gradient/siemens/flGSWDAX_0",
+    "equipment.gradient/siemens/flGSWDAX_1",
+    "equipment.gradient/siemens/flGSWDAX_2",
+    "equipment.gradient/siemens/flGSWDAY_0",
+    "equipment.gradient/siemens/flGSWDAY_1",
+    "equipment.gradient/siemens/flGSWDAY_2",
+    "equipment.gradient/siemens/flGSWDAZ_0",
+    "equipment.gradient/siemens/flGSWDAZ_1",
+    "equipment.gradient/siemens/flGSWDAZ_2",
+    "equipment.gradient/siemens/flGSWDHWCorrectionFactorX",
+    "equipment.gradient/siemens/flGSWDHWCorrectionFactorY",
+    "equipment.gradient/siemens/flGSWDHWCorrectionFactorZ",
+    "equipment.gradient/siemens/flSHIMMaxGradOffset",
+    "equipment.gradient/siemens/lGSWDPhaseEncodingLines_0",
+    "equipment.gradient/siemens/lGSWDPhaseEncodingLines_1",
+    "equipment.gradient/siemens/lGSWDPhaseEncodingLines_2",
+    "equipment.gradient/siemens/lGSWDtd_0_0",
+    "equipment.gradient/siemens/lGSWDtd_0_1",
+    "equipment.gradient/siemens/lGSWDtd_0_2",
+    "equipment.gradient/siemens/lGSWDtd_0_3",
+    "equipment.gradient/siemens/tGradientEngine"
+  ];
 
-  for (var i = 0; i<reconKeys.length; i++){
-    this.imageExport.addInformationKey(reconKeys[i]);
-  }
+  this.geKeys = new Array();
 
+  this.geKeys = [
+    "equipment.Signa/Gradient/xrisetime",
+    "equipment.Signa/Gradient/yrisetime",
+    "equipment.Signa/Gradient/zrisetime",
+    "equipment.Signa/Gradient/systemmaxfov",
+    "equipment.Signa/Gradient/xamptran",
+    "equipment.Signa/Gradient/yamptran",
+    "equipment.Signa/Gradient/zamptran",
+    "equipment.Signa/Gradient/xfsamp",
+    "equipment.Signa/Gradient/yfsamp",
+    "equipment.Signa/Gradient/zfsamp",
+    "equipment.Signa/Gradient/xirms",
+    "equipment.Signa/Gradient/yirms",
+    "equipment.Signa/Gradient/zirms",
+    "equipment.Signa/Gradient/xiavrgabs",
+    "equipment.Signa/Gradient/yiavrgabs",
+    "equipment.Signa/Gradient/ziavrgabs",
+    "equipment.Signa/Gradient/xps_avghvpwrlimit",
+    "equipment.Signa/Gradient/xps_avglvpwrlimit",
+    "equipment.Signa/Gradient/xps_avgpdulimit",
+    "equipment.Signa/Gradient/psdgraddelayx",
+    "equipment.Signa/Gradient/psdgraddelayy",
+    "equipment.Signa/Gradient/psdgraddelayz",
+    "equipment.Signa/Gradient/psdgradwait",
+    "equipment.Signa/Gradient/psdrfwait",
+    "equipment.Signa/Gradient/srmode",
+    "equipment.Signa/Gradient/slew_arthigh",
+    "equipment.Signa/Gradient/slew_artmedium",
+    "equipment.Signa/Gradient/maxb1rms",
+    "equipment.Signa/Gradient/lcoil",
+    "equipment.Signa/Gradient/gradient_coil_temperature_base_c",
+    "equipment.Signa/Gradient/gradient_coil_temperature_limit_c",
+    "equipment.Signa/Gradient/gradient_coil_time_constant_s",
+    "equipment.Signa/Gradient/gradient_coil_power_ss_limit_kw",
+    "equipment.Signa/Gradient/dbdtdistx",
+    "equipment.Signa/Gradient/dbdtdisty",
+    "equipment.Signa/Gradient/dbdtdistz",
+    "equipment.Signa/Gradient/gburstime",
+    "equipment.Signa/Gradient/gcoiltype",
+    "equipment.Signa/Gradient/gmax_arthigh",
+    "equipment.Signa/Gradient/gmax_artmedium",
+    "equipment.Signa/Gradient/gpeakirms",
+    "equipment.Signa/Gradient/coilac_gain",
+    "equipment.Signa/Gradient/coilac_gain",
+    "equipment.Signa/Gradient/coildc_fftpoints",
+    "equipment.Signa/MR/rfmaxattenuation",
+    "equipment.Signa/MR/rfampftquadratic",
+    "equipment.Signa/MR/rfampftlinear",
+    "equipment.Signa/MR/rfdelay"
+  ];
+
+  this.changeInformation.observeKeys(["equipment.device/manufacturer"]);
+  this.imageExport.observedKeysChanged.connect(function(keys){
+    if (keys["equipment.device/manufacturer"] == "GE MEDICAL SYSTEMS"){
+      RTHLOGGER_WARNING('Appending metadata for ' + keys["equipment.device/manufacturer"]);
+      that.reconKeys = that.reconKeys.concat(that.geKeys);
+      for (var i = 0; i<that.reconKeys.length; i++){
+        that.imageExport.addInformationKey(that.reconKeys[i]);
+      }
+    }else{
+      RTHLOGGER_WARNING('Appending metadata for ' + keys["equipment.device/manufacturer"]);
+      that.reconKeys = that.reconKeys.concat(that.siemensKeys);
+      for (var i = 0; i<that.reconKeys.length; i++){
+        that.imageExport.addInformationKey(that.reconKeys[i]);
+      }
+    }
+  
+  });
 
 this.imageExport.observeKeys([
   "mri.SubjectBIDS",
