@@ -62,14 +62,14 @@ function reconBlock(input) {
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
-var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
-var atten = getRxAtten.receivedData();
-RTHLOGGER_WARNING("Received atten is (mtsat)" + atten);
+//var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+//var atten = getRxAtten.receivedData();
+//RTHLOGGER_WARNING("Received atten is (mtsat)" + atten);
 
 var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
 rxAtten.lowerLimit = 0.3;
-rxAtten.upperLimit = 0.95;
+rxAtten.upperLimit = 1;
 rxAtten.newAttenuation.connect(function(newAtten) {
   rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
   RTHLOGGER_WARNING("Received atten is (mtsat in function)" + newAtten);
