@@ -62,6 +62,10 @@ function reconBlock(input) {
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
+var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+var atten = getRxAtten.receivedData();
+RTHLOGGER_ERROR("Received atten is (mtsat)" + atten);
+
 var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
 rxAtten.lowerLimit = 0.3;
@@ -70,9 +74,6 @@ rxAtten.newAttenuation.connect(function(newAtten) {
   rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
 });
 
-var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
-var atten = getRxAtten.receivedData();
-RTHLOGGER_ERROR("Received atten is (mtsat)" + atten);
 
 function connectCoils(coils){
   block = [];
