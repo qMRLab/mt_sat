@@ -68,7 +68,7 @@ var block  = [];
 
 var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
-rxAtten.lowerLimit = 0.3;
+rxAtten.lowerLimit = 0.2;
 rxAtten.upperLimit = 0.98;
 rxAtten.newAttenuation.connect(function(newAtten) {
   rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
