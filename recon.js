@@ -70,6 +70,10 @@ rxAtten.newAttenuation.connect(function(newAtten) {
   rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
 });
 
+var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+var atten = getRxAtten.receivedData();
+RTHLOGGER_ERROR("Received atten is (mtsat)" + atten);
+
 function connectCoils(coils){
   block = [];
   for (var i = 0; i<coils; i++){
