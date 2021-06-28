@@ -92,7 +92,7 @@ rth.informationInsert(sequenceId,"mri.EchoTime",startingTE);
 // Assume FA from SB as the smaller.
 var startingFA2 = SB.excitation["<Sinc RF>.tip"]; //20
 // FA should be in decreasing order (FA1 > FA2)
-var startingFA1 = startingFA2 - 14;
+var startingFA1 = startingFA2 - 18;
 
 // To store the current values 
 var sliceThickness = startingThickness;
@@ -255,7 +255,7 @@ controlWidget.inputWidget_FA1.minimum = 3;
 controlWidget.inputWidget_FA1.maximum = 20;
 controlWidget.inputWidget_FA1.value   = startingFA2;
 //FIXME: FA param names 
-controlWidget.inputWidget_FA2.minimum = 6;
+controlWidget.inputWidget_FA2.minimum = 1;
 controlWidget.inputWidget_FA2.maximum = 19;
 controlWidget.inputWidget_FA2.value   = startingFA1;
 
