@@ -231,6 +231,17 @@ rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
   PreAcqDuration: SB.readout["<Preacquisitions>.duration"]
 }));
 
+function changeRxAtten(val)
+{
+  RTHLOGGER_WARNING("Setting attenuation to " + val);
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", val));
+}
+controlWidget.inputWidget_RxAttenuation.valueChanged.connect(changeRxAtten);
+
+
+controlWidget.inputWidget_RxAttenuation.minimum = 0;
+controlWidget.inputWidget_RxAttenuation.maximum = 10;
+
 
 controlWidget.inputWidget_SliceThickness.minimum = startingZFOV;
 controlWidget.inputWidget_SliceThickness.maximum = startingZFOV*2;
@@ -263,6 +274,20 @@ controlWidget.inputWidget_TE.minimum = minTE;
 controlWidget.inputWidget_TE.maximum = 8;
 controlWidget.inputWidget_TE.value   = 3;
 
+function attenuationClicked(chck){
+
+  if (chck){
+    var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+    var atten = getRxAtten.receivedData();
+    RTHLOGGER_WARNING("Received attenuation is " + atten);
+    controlWidget.inputWidget_RxAttenuation.enabled = true;
+    controlWidget.inputWidget_RxAttenuation.value = atten;
+  }else{
+    RTHLOGGER_WARNING("Rx attenuation has been disabled.");
+    controlWidget.inputWidget_RxAttenuation.enabled = false;
+    rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 0));
+  }
+}
 
 function sessionClicked(chck){
 
@@ -400,6 +425,9 @@ subTextChanged(controlWidget.subjectBIDS.text);
 
 controlWidget.isSessionBIDS.toggled.connect(sessionClicked);
 sessionClicked(controlWidget.isSessionBIDS.checked)
+
+controlWidget.isRxAttenuation.toggled.connect(attenuationClicked);
+attenuationClicked(controlWidget.isRxAttenuation.checked)
 
 controlWidget.isAcqBIDS.toggled.connect(acqClicked);
 acqClicked(controlWidget.isAcqBIDS.checked)

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
+    <width>950</width>
     <height>222</height>
    </rect>
   </property>
@@ -17,29 +17,6 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Geometry</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <property name="sizeConstraint">
@@ -63,7 +40,10 @@
         </size>
        </property>
        <property name="toolTip">
-        <string/>
+        <string comment="Encoded slab thickness. RF excited slab correspondds to ~83% of this value."/>
+       </property>
+       <property name="toolTipDuration">
+        <number>1</number>
        </property>
        <property name="whatsThis">
         <string/>
@@ -85,7 +65,7 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string/>
+        <string extracomment="Physical extent of the slice."/>
        </property>
        <property name="whatsThis">
         <string/>
@@ -97,78 +77,8 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="2">
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="RthParameterInputWidget" name="inputWidget_TRT1">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="title">
-        <string>TR T1w [ms]</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="RthParameterInputWidget" name="inputWidget_TR">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="title">
-        <string>TR PDw [ms]</string>
-       </property>
-       <property name="value">
-        <double>0.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="RthParameterInputWidget" name="inputWidget_TE">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="title">
-        <string>TE [ms]</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
+   <item row="0" column="5">
+    <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -176,17 +86,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Timing</string>
+      <string>Quantitative</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="6">
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -194,6 +97,22 @@
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Geometry</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -311,7 +230,7 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string/>
+        <string>Flip Angle for MTon &amp; MToff images</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -330,7 +249,7 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string/>
+        <string>Flip Angle for T1w image (larger FA)</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -367,6 +286,113 @@
      </item>
     </layout>
    </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Timing</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="8">
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_TRT1">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>TR for the T1w image (shorter).</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="title">
+        <string>TR T1w [ms]</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_TR">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>TR for the MTon and MToff images (longer).</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="title">
+        <string>TR PDw [ms]</string>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_TE">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Echo Time</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="title">
+        <string>TE [ms]</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="6">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="7">
     <widget class="QLabel" name="label_4">
      <property name="font">
@@ -384,8 +410,50 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
-    <widget class="QLabel" name="label_3">
+   <item row="1" column="9">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetFixedSize</enum>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="isRxAttenuation">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Suggested on GE scanners (&gt;= 9).</string>
+       </property>
+       <property name="text">
+        <string>Rx Attenuation</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="RthParameterInputWidget" name="inputWidget_RxAttenuation">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="9">
+    <widget class="QLabel" name="label_6">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -393,7 +461,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Quantitative</string>
+      <string>System</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

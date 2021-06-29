@@ -25,17 +25,18 @@ function reconBlock(input) {
   
   var that  = this;
 
-  this.attenSplit = new RthReconSplitter();
-  this.attenSplit.objectName = "Atten Split ";
-  this.attenSplit.setInput(input);
+  //this.attenSplit = new RthReconSplitter();
+  //this.attenSplit.objectName = "Atten Split ";
+  //this.attenSplit.setInput(input);
 
-  this.attenOutput = function() {
-    return this.attenSplit.output(0);
-  };
+  //this.attenOutput = function() {
+  //  return this.attenSplit.output(0);
+  //};
 
  this.sort3d = new RthReconSort();
  this.sort3d.setIndexKeys(["acquisition.<Cartesian Readout>.index", "acquisition.<Repeat 1>.index"]);
- this.sort3d.setInput(this.attenSplit.output(1));
+ //this.sort3d.setInput(this.attenSplit.output(1));
+ this.sort3d.setInput(input);
  this.sort3d.observeKeys(["mri.RunNumber"]);
  this.sort3d.observedKeysChanged.connect(
   function(keys) {
@@ -52,9 +53,17 @@ function reconBlock(input) {
 
   this.fft = new RthReconImageFFT();
   this.fft.setInput(this.sort3d.output());
-  // Disable after FFT node
+  
+  //this.fermi = new RthReconImageFermiFilter();
+  //this.fermi.objectName = "Fermi Filter ";
+  //this.fermi.setWidth(0.01);
+  //this.fermi.setRadius(0.48);
+  //this.fermi.setFilterZDirection(true);
+  //this.fermi.setInput(this.fft.output());
+
   this.output = function() {
-  return this.fft.output();
+    //return this.fermi.output();
+    return this.fft.output();
   };
 }
 
@@ -62,18 +71,20 @@ function reconBlock(input) {
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
-//var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
-//var atten = getRxAtten.receivedData();
-//RTHLOGGER_WARNING("Received atten is (mtsat)" + atten);
+var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+var atten = getRxAtten.receivedData();
+RTHLOGGER_WARNING("Received atten is (from recon)" + atten);
 
-var rxAtten = new RthReconRawApplyRxAttenuation();
-rxAtten.objectName = "Rx Atten";
-rxAtten.lowerLimit = 0.2;
-rxAtten.upperLimit = 0.98;
-rxAtten.newAttenuation.connect(function(newAtten) {
-  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
-  RTHLOGGER_WARNING("Received atten is (mtsat in function)" + newAtten);
-});
+//var rxAtten = new RthReconRawApplyRxAttenuation();
+//rxAtten.objectName = "Rx Atten";
+//rxAtten.lowerLimit = 0.2;
+//rxAtten.upperLimit = 0.98;
+//rxAtten.newAttenuation.connect(function(newAtten) {
+  //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
+  //RTHLOGGER_WARNING("Received atten is (mtsat in recon)" + newAtten);
+//});
+
+//rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 9));
 
 
 function connectCoils(coils){
@@ -81,7 +92,7 @@ function connectCoils(coils){
   for (var i = 0; i<coils; i++){
     block[i] = new reconBlock(observer.output(i));
     sos.setInput(i,block[i].output());
-    rxAtten.setInput(i, block[i].attenOutput());
+    //rxAtten.setInput(i, block[i].attenOutput());
   }
  rth.collectGarbage();
 }
@@ -154,7 +165,6 @@ function ExportBlock(input){
     "equipment.regulatory/peakSar",
     "equipment.regulatory/reillyPercentage",
     "equipment.regulatory/rheobase",
-    "equipment.regulatory/sarScaleFactor",
     "equipment.regulatory/sarUnits",
     "equipment.regulatory/wbSar",
     "equipment.rf/acquisitionDelayResolution",
@@ -163,7 +173,6 @@ function ExportBlock(input){
     "equipment.rf/localRatedPower",
     "equipment.rf/maxReadoutBw",
     "equipment.rf/maxUniqueReadouts",
-    "equipment.rf/rxChannels",
     "equipment.rf/samplingPeriod",
     "equipment.device/acquisitionHost",
     "equipment.coils",
@@ -208,14 +217,11 @@ function ExportBlock(input){
     "equipment.udiPCNMajor",
     "equipment.udiPCNPrefix",
     "equipment.udiUMID",
-    "equipment.prescan/refVoltage",
     "equipment.prescan/tg",
     "equipment.prescan/maxB1",
     "equipment.prescan/cf",
-    "equipment.prescan/nucleus",
     "equipment.prescan/r1",
     "equipment.prescan/r2",
-    "equipment.prescan/refPulseInGauss",
     "equipment.prescan/status",
     "equipment.prescan/xs",
     "equipment.prescan/ys",
@@ -237,7 +243,6 @@ function ExportBlock(input){
     "patient.AdditionalPatientHistory",
     "patient.PatientAge",
     "patient.PatientBirthDate",
-    "patient.PatientDisplayName",
     "patient.PatientID",
     "patient.PatientName",
     "patient.PatientSex",
@@ -252,7 +257,6 @@ function ExportBlock(input){
     "series.ProtocolName",
     "series.SeriesDescription",
     "series.timezone",
-    "exportedSeries.BodyPartExamined",
     "exportedSeries.FrameOfReferenceUID",
     "study.DBdtMode",
     "study.ImagedNucleus",
@@ -262,11 +266,19 @@ function ExportBlock(input){
     "study.StudyDescription",
     "study.StudyTime",
     "equipment.prescan/cf",
+    "acquisition.rxAttenuation",
   ];
 
   // Siemens specific keys 
   this.siemensKeys = new Array();
   this.siemensKeys = [
+    "equipment.regulatory/sarScaleFactor",
+    "patient.PatientDisplayName",
+    "equipment.prescan/refVoltage",
+    "equipment.prescan/refPulseInGauss",
+    "equipment.rf/rxChannels",
+    "equipment.prescan/nucleus",
+    "exportedSeries.BodyPartExamined",
     "equipment.gradient/siemens/asCOMP_0/tModuleName",
     "equipment.gradient/siemens/asCOMP_0/tName",
     "equipment.gradient/siemens/asGPAParameters_0/ai32GradRegX_0",
@@ -367,7 +379,6 @@ function ExportBlock(input){
     "equipment.Signa/Gradient/gpeakirms",
     "equipment.Signa/Gradient/coilac_gain",
     "equipment.Signa/Gradient/coilac_gain",
-    "equipment.Signa/Gradient/coildc_fftpoints",
     "equipment.Signa/MR/rfmaxattenuation",
     "equipment.Signa/MR/rfampftquadratic",
     "equipment.Signa/MR/rfampftlinear",
