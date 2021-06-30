@@ -91,12 +91,12 @@ rxAtten.upperLimit = 0.75;
 rxAtten.observeKeys(["equipment.device/manufacturer"]);
 var trval = 0;
 rxAtten.observedKeysChanged.connect(function(keys){
-    trval = keys['mri.SpoilingRFPhaseIncrement'];
+    trval = keys['mri.RxAttenuationValue'];
 });
 rxAtten.newAttenuation.connect(function(newAtten) {
-  RTHLOGGER_WARNING("Connected atten is (mtsat in recon) to5" + newAtten);
-  RTHLOGGER_WARNING("Debug" + trval);
-  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 5));
+  RTHLOGGER_WARNING("System offered atten is (mtsat in recon)" + newAtten);
+  RTHLOGGER_WARNING("UI" + trval);
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", trval));
 });
 
 //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 9));
