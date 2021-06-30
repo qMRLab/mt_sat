@@ -61,6 +61,13 @@ rth.informationInsert(sequenceId, "mri.EchoTrainLength", 1);
 rth.informationInsert(sequenceId, "mri.ExcitationTimeBandwidth",SB.excitation["<Sinc RF>.timeBandwidth"]);
 rth.informationInsert(sequenceId, "mri.ExcitationDuration",SB.excitation["<Sinc RF>.duration"]);
 rth.informationInsert(sequenceId, "mri.ExcitationType","SINC Hamming");
+rth.informationInsert(sequenceId, "mri.RawTrajectory","cartesian");
+rth.informationInsert(sequenceId, "mri.SpoilingState","True");
+rth.informationInsert(sequenceId, "mri.SpoilingType","COMBINED");
+rth.informationInsert(sequenceId, "mri.SpoilingRFPhaseIncrement",117);
+rth.informationInsert(sequenceId, "mri.SpoilingGradientDuration",SB.spoiler["<Area Trapezoid>.duration"]);
+rth.informationInsert(sequenceId, "mri.SpoilingGradientAreaCycCm",SB.spoiler["<Area Trapezoid>.area"]);
+
 
 // Get minimum TR
 var scannerTR = new RthUpdateGetTRCommand(sequenceId, [], []);
@@ -367,7 +374,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   
   var mtwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD);
   var mtwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: true, MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
+  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: "True", MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
   var mtwGroup = new RthUpdateGroup([mtwCommand1, mtwCommand2, mtwCommand3, mtwCommand4, mtwCommand5]);
   
   // PDW
@@ -375,7 +382,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   var pdwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
   var pdwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD); 
   var pdwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var pdwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "off", FlipIndex: "01", RepetitionTime: 0.028, MTState: false});
+  var pdwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "off", FlipIndex: "01", RepetitionTime: 0.028, MTState: "False"});
   var pdwGroup = new RthUpdateGroup([pdwCommand1, pdwCommand2, pdwCommand3, pdwCommand4, pdwCommand5]);
   
   // T1w
@@ -383,7 +390,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   var t1wCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
   var t1wCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRT1);
   var t1wCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", 1); // Large
-  var t1wCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle1, MTIndex: "off", FlipIndex: "02", RepetitionTime: 0.018, MTState: false});
+  var t1wCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle1, MTIndex: "off", FlipIndex: "02", RepetitionTime: 0.018, MTState: "False"});
   var t1wGroup = new RthUpdateGroup([t1wCommand1, t1wCommand2, t1wCommand3, t1wCommand4, t1wCommand5]);
   
   

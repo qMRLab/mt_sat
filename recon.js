@@ -33,6 +33,7 @@ function reconBlock(input) {
   //  return this.attenSplit.output(0);
   //};
 
+
  this.sort3d = new RthReconSort();
  this.sort3d.setIndexKeys(["acquisition.<Cartesian Readout>.index", "acquisition.<Repeat 1>.index"]);
  //this.sort3d.setInput(this.attenSplit.output(1));
@@ -51,8 +52,12 @@ function reconBlock(input) {
   }
 );
 
+  this.rawSplit = new RthReconRawSplitter();
+  this.rawSplit.objectName = "Raw splitter";
+  this.rawSplit.setInput(this.sort3d.output());
+
   this.fft = new RthReconImageFFT();
-  this.fft.setInput(this.sort3d.output());
+  this.fft.setInput(this.rawSplit.output(-1));
   
   //this.fermi = new RthReconImageFermiFilter();
   //this.fermi.objectName = "Fermi Filter ";
@@ -64,6 +69,10 @@ function reconBlock(input) {
   this.output = function() {
     //return this.fermi.output();
     return this.fft.output();
+  };
+
+  this.rawOutput = function() {
+    return this.rawSplit.output(-1);
   };
 }
 
@@ -92,6 +101,8 @@ function connectCoils(coils){
   for (var i = 0; i<coils; i++){
     block[i] = new reconBlock(observer.output(i));
     sos.setInput(i,block[i].output());
+    pack.setInput(i,block[i].rawOutput());
+
     //rxAtten.setInput(i, block[i].attenOutput());
   }
  rth.collectGarbage();
@@ -101,15 +112,17 @@ observer.coilsChanged.connect(connectCoils);
 
 rth.importJS("lib:RthImageThreePlaneOutput.js");
 
-function ExportBlock(input){
+function ExportBlock(input,rawInput){
 
   var that = this;
 
   //var imageExport = new RthReconToQmrlab();
   // This is a bit annoying, but the only option for now. 
   this.imageExport = new RthReconImageExport();
-
+  this.imageExport.objectName = "exportRecon";
   this.changeInformation = new RthReconImageChangeInformation();
+  this.imageExportRaw = new RthReconImageExport();
+  this.imageExportRaw.objectName = "exportRaw";
   
   // Generic keys
   this.reconKeys = new Array();
@@ -133,6 +146,7 @@ function ExportBlock(input){
     "mri.FlipAngle1",
     "mri.FlipAngle2",
     "mri.FlipAngle",
+    "mri.RawTrajectory",
     "mri.SliceThickness",
     "reconstruction.phaseEncodes",
     "acquisition.samples",
@@ -144,6 +158,11 @@ function ExportBlock(input){
     "mri.SessionBIDS",
     "mri.AcquisitionBIDS",
     "mri.ExcitationSlabThickness",
+    "mri.SpoilingState",
+    "mri.SpoilingType",
+    "mri.SpoilingRFPhaseIncrement",
+    "mri.SpoilingGradientDuration",
+    "mri.SpoilingGradientAreaCycCm",
     // Generic RTHawk keys
     "geometry.TranslationX",
     "geometry.TranslationY",
@@ -392,12 +411,14 @@ function ExportBlock(input){
       that.reconKeys = that.reconKeys.concat(that.geKeys);
       for (var i = 0; i<that.reconKeys.length; i++){
         that.imageExport.addInformationKey(that.reconKeys[i]);
+        that.imageExportRaw.addInformationKey(that.reconKeys[i]);
       }
     }else{
       RTHLOGGER_WARNING('Appending metadata for ' + keys["equipment.device/manufacturer"]);
       that.reconKeys = that.reconKeys.concat(that.siemensKeys);
       for (var i = 0; i<that.reconKeys.length; i++){
         that.imageExport.addInformationKey(that.reconKeys[i]);
+        that.imageExportRaw.addInformationKey(that.reconKeys[i]);
       }
     }
   
@@ -431,9 +452,33 @@ this.imageExport.observedKeysChanged.connect(function(keys){
   this.imageExport.objectName = "save_image";
   this.imageExport.setInput(input);
 
+  this.imageExportRaw.observeKeys([
+    "mri.SubjectBIDS",
+    "mri.SessionBIDS",
+    "mri.AcquisitionBIDS",
+    "mri.FlipIndex",
+    "mri.RepetitionTime",
+    "mri.FlipAngle",
+    "mri.MTState",
+    "mri.MTIndex"
+  ]);
+  this.imageExportRaw.observedKeysChanged.connect(function(keys){
+    var exportDirectoryRaw = "qMRLabAcq/rthRaw/";
+    var flipIndex = keys["mri.FlipIndex"];
+    var MTIndex = keys["mri.MTIndex"];
+    var subjectBIDS  = "sub-" + keys["mri.SubjectBIDS"];
+    var sessionBIDS = (keys["mri.SessionBIDS"]) ? "_ses-" + keys["mri.SessionBIDS"] : "";
+    var acquisitionBIDS = (keys["mri.AcquisitionBIDS"]) ? "_acq-" + keys["mri.AcquisitionBIDS"] : "";
+    var exportFileNameRaw  = exportDirectoryRaw + subjectBIDS + sessionBIDS + acquisitionBIDS + "_flip-" + flipIndex + "_mt-" +  MTIndex + "_MTSraw.dat";
+    that.imageExportRaw.setFileName(exportFileNameRaw);
+  });
+
+  this.imageExportRaw.setInput(rawInput);
   // This is a sink node, hence no output.
 }
 
+var pack = new RthReconImagePack();
+pack.objectName = "coilPack";
 
 var splitter = RthReconSplitter();
 splitter.objectName = "splitOutput";
@@ -442,4 +487,4 @@ splitter.setInput(sos.output());
 var threePlane = new RthImageThreePlaneOutput();
 threePlane.setInput(splitter.output(0));
 
-var exporter  = new ExportBlock(splitter.output(1));
+var exporter  = new ExportBlock(splitter.output(1),pack.output());
