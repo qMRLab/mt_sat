@@ -102,7 +102,7 @@ rth.informationInsert(sequenceId,"mri.EchoTime",startingTE);
 // Assume FA from SB as the smaller.
 var startingFA2 = SB.excitation["<Sinc RF>.tip"]; //20
 // FA should be in decreasing order (FA1 > FA2)
-var startingFA1 = startingFA2 - 18;
+var startingFA1 = startingFA2 - 14;
 
 // To store the current values 
 var sliceThickness = startingThickness;
