@@ -82,7 +82,7 @@ var block  = [];
 
 var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
 var atten = getRxAtten.receivedData();
-RTHLOGGER_WARNING("Received atten is (from recon)" + atten);
+RTHLOGGER_WARNING("MTSAT recon received value" + atten);
 
 //var rxAtten = new RthReconRawApplyRxAttenuation();
 //rxAtten.objectName = "Rx Atten";
