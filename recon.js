@@ -147,7 +147,7 @@ function ExportBlock(input,rawInput){
     "mri.FlipAngle2",
     "mri.FlipAngle",
     "mri.RawTrajectory",
-    "mri.SliceThickness",
+    "geometry.SliceThickness",
     "reconstruction.phaseEncodes",
     "acquisition.samples",
     "reconstruction.zPartitions",
@@ -163,6 +163,7 @@ function ExportBlock(input,rawInput){
     "mri.SpoilingRFPhaseIncrement",
     "mri.SpoilingGradientDuration",
     "mri.SpoilingGradientAreaCycCm",
+    "mri.RxAttenuationManual",
     // Generic RTHawk keys
     "geometry.TranslationX",
     "geometry.TranslationY",

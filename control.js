@@ -67,6 +67,7 @@ rth.informationInsert(sequenceId, "mri.SpoilingType","COMBINED");
 rth.informationInsert(sequenceId, "mri.SpoilingRFPhaseIncrement",117);
 rth.informationInsert(sequenceId, "mri.SpoilingGradientDuration",SB.spoiler["<Area Trapezoid>.duration"]);
 rth.informationInsert(sequenceId, "mri.SpoilingGradientAreaCycCm",SB.spoiler["<Area Trapezoid>.area"]);
+rth.informationInsert(sequenceId, "mri.RxAttenuationManual", "False");
 
 
 // Get minimum TR
@@ -86,7 +87,9 @@ var startingZFOV = SB.readout["<Phase Encode Gradient>.fov"]*10; //mm
 // RF pulse is associated with the gradient. Changes in SSG updates RF as well. 
 var startingThickness = SB.excitation["<Slice Select Gradient>.thickness"]; // mm
 // Insert metadata
-rth.informationInsert(sequenceId,"mri.SliceThickness",startingZFOV/zPartitions);
+//rth.informationInsert(sequenceId,"mri.SliceThickness",startingZFOV/zPartitions);
+rth.addCommand(new RthUpdateChangeSliceThicknessCommand(sequenceId, startingZFOV/zPartitions));
+
 rth.informationInsert(sequenceId,"mri.ExcitationSlabThickness",startingZFOV);
 var startingResolution = startingFOV/xPixels* 10; // mm
 
@@ -247,7 +250,7 @@ controlWidget.inputWidget_RxAttenuation.valueChanged.connect(changeRxAtten);
 
 
 controlWidget.inputWidget_RxAttenuation.minimum = 0;
-controlWidget.inputWidget_RxAttenuation.maximum = 10;
+controlWidget.inputWidget_RxAttenuation.maximum = 20;
 
 
 controlWidget.inputWidget_SliceThickness.minimum = startingZFOV;
@@ -288,11 +291,13 @@ function attenuationClicked(chck){
     var atten = getRxAtten.receivedData();
     RTHLOGGER_WARNING("Received attenuation is " + atten);
     controlWidget.inputWidget_RxAttenuation.enabled = true;
-    controlWidget.inputWidget_RxAttenuation.value = atten;
+    controlWidget.inputWidget_RxAttenuation.value = atten
+    rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RxAttenuationManual", "True"));
   }else{
     RTHLOGGER_WARNING("Rx attenuation has been disabled.");
     controlWidget.inputWidget_RxAttenuation.enabled = false;
     rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 0));
+    rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RxAttenuationManual", "True"));
   }
 }
 
