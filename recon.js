@@ -80,9 +80,9 @@ function reconBlock(input) {
 var sos = new RthReconImageSumOfSquares();
 var block  = [];
 
-var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
-var atten = getRxAtten.receivedData();
-RTHLOGGER_WARNING("MTSAT recon received value" + atten);
+//var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+//var atten = getRxAtten.receivedData();
+//RTHLOGGER_WARNING("MTSAT recon received value" + atten);
 
 //var rxAtten = new RthReconRawApplyRxAttenuation();
 //rxAtten.objectName = "Rx Atten";
