@@ -290,16 +290,16 @@ controlWidget.inputWidget_TE.value   = 3;
 function attenuationClicked(chck){
 
   if (chck){
-    var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
-    var atten = getRxAtten.receivedData();
-    RTHLOGGER_WARNING("Received attenuation is " + atten);
+    //var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); rth.addCommand(getRxAtten);
+    //var atten = getRxAtten.receivedData();
+    //RTHLOGGER_WARNING("Received attenuation is " + atten);
     controlWidget.inputWidget_RxAttenuation.enabled = true;
     controlWidget.inputWidget_RxAttenuation.value = atten
     rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RxAttenuationManual", "True"));
   }else{
     RTHLOGGER_WARNING("Rx attenuation has been disabled.");
     controlWidget.inputWidget_RxAttenuation.enabled = false;
-    rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 0));
+    //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 0));
     rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RxAttenuationManual", "False"));
   }
 }

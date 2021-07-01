@@ -88,15 +88,16 @@ var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
 rxAtten.lowerLimit = 0.3;
 rxAtten.upperLimit = 0.75;
-rxAtten.observeKeys(["equipment.device/manufacturer"]);
-var trval = 0;
-rxAtten.observedKeysChanged.connect(function(keys){
-    trval = keys['mri.RxAttenuationValue'];
-});
+//rxAtten.observeKeys(["mri.RxAttenuationValue"]);
+//var trval = 0;
+//rxAtten.observedKeysChanged.connect(function(keys){
+//    trval = keys['mri.RxAttenuationValue'];
+//    RTHLOGGER_WARNING("UI change" + trval);
+//});
 rxAtten.newAttenuation.connect(function(newAtten) {
   RTHLOGGER_WARNING("System offered atten is (mtsat in recon)" + newAtten);
-  RTHLOGGER_WARNING("UI" + trval);
-  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", trval));
+//  RTHLOGGER_WARNING("UI change" + trval);
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
 });
 
 //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 9));
