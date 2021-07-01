@@ -59,16 +59,16 @@ function reconBlock(input) {
   this.fft = new RthReconImageFFT();
   this.fft.setInput(this.rawSplit.output(-1));
   
-  //this.fermi = new RthReconImageFermiFilter();
-  //this.fermi.objectName = "Fermi Filter ";
-  //this.fermi.setWidth(0.01);
-  //this.fermi.setRadius(0.48);
-  //this.fermi.setFilterZDirection(true);
-  //this.fermi.setInput(this.fft.output());
+  this.fermi = new RthReconImageFermiFilter();
+  this.fermi.objectName = "Fermi Filter ";
+  this.fermi.setWidth(0.01);
+  this.fermi.setRadius(0.48);
+  this.fermi.setFilterZDirection(true);
+  this.fermi.setInput(this.fft.output());
 
   this.output = function() {
-    //return this.fermi.output();
-    return this.fft.output();
+    return this.fermi.output();
+    //return this.fft.output();
   };
 
   this.rawOutput = function() {
