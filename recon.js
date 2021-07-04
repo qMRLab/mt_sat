@@ -88,9 +88,16 @@ var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
 rxAtten.lowerLimit = 0.2;
 rxAtten.upperLimit = 0.98;
+var enforceAtten = 0;
+rxAtten.observeKeys(["mri.RxAttenuationValue"]);
+rxAtten.observedKeysChanged.connect(function(keys){
+  RTHLOGGER_WARNING("Recon received user enforce rx factor " + keys["mri.RxAttenuationValue"]);
+  enforceAtten = keys["mri.RxAttenuationValue"];
+});
 rxAtten.newAttenuation.connect(function(newAtten) {
-  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
-  RTHLOGGER_WARNING("AUTO atten is (mtsat in recon)" + newAtten);
+  RTHLOGGER_WARNING("AUTO atten is " + newAtten + " enforced to " + enforceAtten);
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", enforceAtten));
+  
 });
 
 //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 9));

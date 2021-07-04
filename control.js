@@ -68,6 +68,7 @@ rth.informationInsert(sequenceId, "mri.SpoilingRFPhaseIncrement",117);
 rth.informationInsert(sequenceId, "mri.SpoilingGradientDuration",SB.spoiler["<Area Trapezoid>.duration"]);
 rth.informationInsert(sequenceId, "mri.SpoilingGradientAreaCycCm",SB.spoiler["<Area Trapezoid>.area"]);
 rth.informationInsert(sequenceId, "mri.RxAttenuationManual", "False");
+rth.informationInsert(sequenceId, "mri.RxAttenuationValue", 0);
 
 
 // Get minimum TR
@@ -243,7 +244,8 @@ rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId,{
 
 function changeRxAtten(val)
 {
-  RTHLOGGER_WARNING("SKIPPING MANUAL ATTENUATION SIGNA_OPT1 BRANCH " + val);
+  RTHLOGGER_WARNING("Overriding auto attenuation factor in recon with " + val);
+  rth.addCommand(new RthUpdateChangeMRIParameterCommand(sequenceId, "RxAttenuationValue", val));
   //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", val));
 }
 controlWidget.inputWidget_RxAttenuation.valueChanged.connect(changeRxAtten);
