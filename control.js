@@ -245,6 +245,13 @@ function changeRxAtten(val)
 {
   RTHLOGGER_WARNING("Setting attenuation to " + val);
   rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", val));
+
+  // A bit circular, but to ensure I assume.
+  var getRxAtten = new RthUpdateGetRxAttenuationCommand(sequenceId, "readout"); 
+  rth.addCommand(getRxAtten);
+  var atten = getRxAtten.receivedData();
+  controlWidget.inputWidget_RxAttenuation.value = atten;
+
 }
 controlWidget.inputWidget_RxAttenuation.valueChanged.connect(changeRxAtten);
 
