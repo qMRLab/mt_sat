@@ -25,19 +25,19 @@ function reconBlock(input) {
   
   var that  = this;
 
-  //this.attenSplit = new RthReconSplitter();
-  //this.attenSplit.objectName = "Atten Split ";
-  //this.attenSplit.setInput(input);
+  this.attenSplit = new RthReconSplitter();
+  this.attenSplit.objectName = "Atten Split ";
+  this.attenSplit.setInput(input);
 
-  //this.attenOutput = function() {
-  //  return this.attenSplit.output(0);
-  //};
+  this.attenOutput = function() {
+    return this.attenSplit.output(0);
+  };
 
 
  this.sort3d = new RthReconSort();
  this.sort3d.setIndexKeys(["acquisition.<Cartesian Readout>.index", "acquisition.<Repeat 1>.index"]);
  //this.sort3d.setInput(this.attenSplit.output(1));
- this.sort3d.setInput(input);
+ this.sort3d.setInput(this.attenSplit.output(1));
  this.sort3d.observeKeys(["mri.RunNumber"]);
  this.sort3d.observedKeysChanged.connect(
   function(keys) {
@@ -84,14 +84,14 @@ var block  = [];
 //var atten = getRxAtten.receivedData();
 //RTHLOGGER_WARNING("MTSAT recon received value" + atten);
 
-//var rxAtten = new RthReconRawApplyRxAttenuation();
-//rxAtten.objectName = "Rx Atten";
-//rxAtten.lowerLimit = 0.2;
-//rxAtten.upperLimit = 0.98;
-//rxAtten.newAttenuation.connect(function(newAtten) {
-  //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
-  //RTHLOGGER_WARNING("Received atten is (mtsat in recon)" + newAtten);
-//});
+var rxAtten = new RthReconRawApplyRxAttenuation();
+rxAtten.objectName = "Rx Atten";
+rxAtten.lowerLimit = 0.2;
+rxAtten.upperLimit = 0.98;
+rxAtten.newAttenuation.connect(function(newAtten) {
+  rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", newAtten));
+  RTHLOGGER_WARNING("AUTO atten is (mtsat in recon)" + newAtten);
+});
 
 //rth.addCommand(new RthUpdateFloatParameterCommand(sequenceId, "readout", "setRxAttenuation", "", 9));
 
@@ -102,8 +102,8 @@ function connectCoils(coils){
     block[i] = new reconBlock(observer.output(i));
     sos.setInput(i,block[i].output());
     pack.setInput(i,block[i].rawOutput());
-
-    //rxAtten.setInput(i, block[i].attenOutput());
+    // Sink node
+    rxAtten.setInput(i, block[i].attenOutput());
   }
  rth.collectGarbage();
 }
