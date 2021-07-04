@@ -86,8 +86,8 @@ var block  = [];
 
 var rxAtten = new RthReconRawApplyRxAttenuation();
 rxAtten.objectName = "Rx Atten";
-rxAtten.lowerLimit = 0.2;
-rxAtten.upperLimit = 0.98;
+rxAtten.lowerLimit = 0.3;
+rxAtten.upperLimit = 0.75;
 var enforceAtten = 0;
 rxAtten.observeKeys(["mri.RxAttenuationValue"]);
 rxAtten.observedKeysChanged.connect(function(keys){
