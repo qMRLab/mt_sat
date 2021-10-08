@@ -118,9 +118,9 @@
 	<key>absoluteTime</key>
 	<real>0.62914997339248657</real>
 	<key>activeInspector</key>
-	<integer>2</integer>
+	<integer>1</integer>
 	<key>appVersion</key>
-	<string>2.5.1</string>
+	<string>2.5.2</string>
 	<key>beginAtSS</key>
 	<integer>0</integer>
 	<key>chronaxie</key>
@@ -154,16 +154,16 @@
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>738</integer>
+		<integer>578</integer>
 		<key>width</key>
-		<integer>1056</integer>
+		<integer>1024</integer>
 		<key>x</key>
-		<integer>129</integer>
+		<integer>0</integer>
 		<key>y</key>
-		<integer>38</integer>
+		<integer>39</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>500</real>
+	<real>125</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -190,7 +190,7 @@
 			<key>showYValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>406</real>
+			<real>246</real>
 			<key>viewHeight</key>
 			<real>253</real>
 			<key>viewLeft</key>
@@ -218,7 +218,7 @@
 			<key>showValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>33.328125</real>
+			<real>-127</real>
 			<key>viewHeight</key>
 			<real>426</real>
 			<key>viewLeft</key>
@@ -238,7 +238,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-78.5</real>
+			<real>-238.5</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -258,7 +258,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>511</real>
+			<real>351</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
