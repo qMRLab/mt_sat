@@ -24,7 +24,7 @@
 			<key>res</key>
 			<integer>114</integer>
 			<key>selectionStart</key>
-			<real>25.060823440551758</real>
+			<real>-6.619997501373291</real>
 		</dict>
 		<dict>
 			<key>editableName</key>
@@ -211,12 +211,12 @@
 		<key>width</key>
 		<integer>1024</integer>
 		<key>x</key>
-		<integer>-19</integer>
+		<integer>0</integer>
 		<key>y</key>
 		<integer>39</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>125</real>
+	<real>55</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -369,7 +369,7 @@
 	<key>yVelocity</key>
 	<real>0.0</real>
 	<key>zPosition</key>
-	<real>25.060823440551758</real>
+	<real>-6.619997501373291</real>
 	<key>zVelocity</key>
 	<real>0.0</real>
 </dict>

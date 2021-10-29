@@ -93,7 +93,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>samplingRate</key>
-				<real>125</real>
+				<real>55</real>
 				<key>x0Component</key>
 				<real>1</real>
 				<key>x1Component</key>
@@ -139,7 +139,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutStart</string>
 					<key>position</key>
-					<real>0.87000000476837158</real>
+					<real>0.81199997663497925</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient</string>
@@ -176,7 +176,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutEnd</string>
 					<key>position</key>
-					<real>2.7899999618530273</real>
+					<real>5.1756362915039062</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient 1</string>
@@ -311,7 +311,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 		<integer>0</integer>
 	</dict>
 	<key>absoluteTime</key>
-	<real>797.7213134765625</real>
+	<real>798.92596435546875</real>
 	<key>activeInspector</key>
 	<integer>1</integer>
 	<key>appVersion</key>
@@ -353,12 +353,12 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 		<key>width</key>
 		<integer>1024</integer>
 		<key>x</key>
-		<integer>0</integer>
+		<integer>16</integer>
 		<key>y</key>
 		<integer>38</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>125</real>
+	<real>55</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -409,7 +409,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 			<key>rfDisplayStyle</key>
 			<string>XY Combined Plot</string>
 			<key>showReadoutWindows</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
@@ -473,11 +473,11 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>263</real>
+			<real>249</real>
 			<key>viewHeight</key>
 			<real>251</real>
 			<key>viewLeft</key>
-			<real>349.16015625</real>
+			<real>469.36328125</real>
 			<key>viewWidth</key>
 			<real>884.76953125</real>
 		</dict>
@@ -567,11 +567,11 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>2.5613134765624999</real>
+	<real>5.1659643554687502</real>
 	<key>tr</key>
-	<real>4.119999885559082</real>
+	<real>6.5416364669799805</real>
 	<key>trNum</key>
-	<integer>193</integer>
+	<integer>121</integer>
 	<key>waveSamplingRate</key>
 	<real>50</real>
 	<key>xPosition</key>
