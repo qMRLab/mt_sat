@@ -353,7 +353,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 		<key>width</key>
 		<integer>1024</integer>
 		<key>x</key>
-		<integer>16</integer>
+		<integer>-46</integer>
 		<key>y</key>
 		<integer>38</integer>
 	</dict>
@@ -539,7 +539,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 	<key>readoutSampleDivisor</key>
 	<integer>2</integer>
 	<key>receiverPhase</key>
-	<real>112.26928710937499</real>
+	<real>0.0</real>
 	<key>rfLimit</key>
 	<real>0.10000000000000001</real>
 	<key>slewMagLimitXScale</key>
