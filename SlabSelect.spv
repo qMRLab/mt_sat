@@ -213,10 +213,10 @@
 		<key>x</key>
 		<integer>0</integer>
 		<key>y</key>
-		<integer>39</integer>
+		<integer>318</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>55</real>
+	<real>60</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
