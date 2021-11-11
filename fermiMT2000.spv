@@ -230,9 +230,9 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 		<key>width</key>
 		<integer>1180</integer>
 		<key>x</key>
-		<integer>432</integer>
+		<integer>385</integer>
 		<key>y</key>
-		<integer>259</integer>
+		<integer>271</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>64</real>
@@ -378,7 +378,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 	<key>trNum</key>
 	<integer>0</integer>
 	<key>waveSamplingRate</key>
-	<real>50</real>
+	<real>250</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>

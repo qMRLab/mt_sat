@@ -160,9 +160,9 @@
 		<key>width</key>
 		<integer>1099</integer>
 		<key>x</key>
-		<integer>459</integer>
+		<integer>487</integer>
 		<key>y</key>
-		<integer>264</integer>
+		<integer>297</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>64</real>
