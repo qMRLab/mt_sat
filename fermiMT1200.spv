@@ -24,7 +24,7 @@
 			<key>res</key>
 			<integer>100</integer>
 			<key>selectionStart</key>
-			<real>290.319091796875</real>
+			<real>1187.8941650390625</real>
 		</dict>
 		<dict>
 			<key>editableName</key>
@@ -188,7 +188,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 		<integer>0</integer>
 	</dict>
 	<key>absoluteTime</key>
-	<real>13.079986572265625</real>
+	<real>11.847822189331055</real>
 	<key>activeInspector</key>
 	<integer>1</integer>
 	<key>appVersion</key>
@@ -206,7 +206,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 	<key>freelyRotatable</key>
 	<integer>1</integer>
 	<key>frequency</key>
-	<real>290.319091796875</real>
+	<real>1187.8941650390625</real>
 	<key>gamma</key>
 	<real>4258</real>
 	<key>gradCoilHeatingGain</key>
@@ -226,16 +226,16 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>578</integer>
+		<integer>795</integer>
 		<key>width</key>
-		<integer>1024</integer>
+		<integer>1144</integer>
 		<key>x</key>
 		<integer>393</integer>
 		<key>y</key>
-		<integer>468</integer>
+		<integer>251</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>60</real>
+	<real>64</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -262,11 +262,11 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>showYValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-108</real>
+			<real>82.94140625</real>
 			<key>viewHeight</key>
 			<real>615</real>
 			<key>viewLeft</key>
-			<real>800.50390625</real>
+			<real>480.80078125</real>
 			<key>viewWidth</key>
 			<real>489.921875</real>
 		</dict>
@@ -290,11 +290,11 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-277</real>
+			<real>-50</real>
 			<key>viewHeight</key>
 			<real>774</real>
 			<key>viewLeft</key>
-			<real>83.14453125</real>
+			<real>105.125</real>
 			<key>viewWidth</key>
 			<real>669.8125</real>
 		</dict>
@@ -310,7 +310,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-268</real>
+			<real>-51</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -330,7 +330,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>354</real>
+			<real>571</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
@@ -372,13 +372,13 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 	<key>t2</key>
 	<real>80</real>
 	<key>timeWithinTr</key>
-	<real>13.079986572265625</real>
+	<real>11.847822189331055</real>
 	<key>tr</key>
 	<real>13.086023330688477</real>
 	<key>trNum</key>
 	<integer>0</integer>
 	<key>waveSamplingRate</key>
-	<real>50</real>
+	<real>250</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>

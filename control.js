@@ -289,7 +289,7 @@ controlWidget.inputWidget_FA2.value   = startingFA1;
 
 controlWidget.inputWidget_TE.minimum = minTE;
 controlWidget.inputWidget_TE.maximum = 8;
-controlWidget.inputWidget_TE.value   = 3;
+controlWidget.inputWidget_TE.value   = 4;
 
 function attenuationClicked(chck){
 
@@ -376,6 +376,10 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
     // So on init, code hits this condition, where we'll enable mt1200 block.
     RTHLOGGER_WARNING("Initializing...");
     RTHLOGGER_WARNING("ENABLED OFFSET 1.2kHZ");
+    // This is where TRPD and TRT1 are declared to the focus. 
+    // For now, I am keeping these fixed to safeguard protocol, can change later. 
+    RTHLOGGER_WARNING("PDw TR is " + TRPD);
+    RTHLOGGER_WARNING("T1w TR is " + TRT1);
     var mtwCommand1 = new RthUpdateEnableBlockCommand(sequenceId, "mt1200", true);
     var mtwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
     var offsetFreq = 1200;
@@ -423,6 +427,7 @@ function changeOffset(offsetIndex){
   //RTHLOGGER_WARNING("Selected Offset" + idx);
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXED PARAMS FOR NOW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // THIS IS WHERE YOU HARDCORE TRS!!!!!!
   mtsLoopCommands(32000,18000,offsetIndex)
 }
 

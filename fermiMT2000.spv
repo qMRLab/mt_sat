@@ -226,16 +226,16 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>581</integer>
+		<integer>695</integer>
 		<key>width</key>
-		<integer>1024</integer>
+		<integer>1180</integer>
 		<key>x</key>
-		<integer>281</integer>
+		<integer>432</integer>
 		<key>y</key>
-		<integer>427</integer>
+		<integer>259</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>60</real>
+	<real>64</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -262,7 +262,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>showYValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-105</real>
+			<real>9</real>
 			<key>viewHeight</key>
 			<real>615</real>
 			<key>viewLeft</key>
@@ -290,7 +290,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-274</real>
+			<real>-160</real>
 			<key>viewHeight</key>
 			<real>774</real>
 			<key>viewLeft</key>
@@ -310,7 +310,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-265</real>
+			<real>-151</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -330,7 +330,7 @@ SB.message(SB['&lt;Fermi RF&gt;.pulseWidth']);
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>357</real>
+			<real>471</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>

@@ -160,12 +160,12 @@
 		<key>width</key>
 		<integer>1099</integer>
 		<key>x</key>
-		<integer>114</integer>
+		<integer>459</integer>
 		<key>y</key>
-		<integer>251</integer>
+		<integer>264</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>60</real>
+	<real>64</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>

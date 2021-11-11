@@ -53,7 +53,8 @@
 			<integer>1</integer>
 			<key>script</key>
 			<string>SB['&lt;Repeat 1&gt;.repetitions'] = SB['&lt;Phase Encode Gradient&gt;.res'];
-SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.res'];</string>
+SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.res'];
+SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 		</dict>
 	</array>
 	<key>Waveforms</key>
@@ -353,12 +354,12 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 		<key>width</key>
 		<integer>1415</integer>
 		<key>x</key>
-		<integer>114</integer>
+		<integer>206</integer>
 		<key>y</key>
-		<integer>216</integer>
+		<integer>215</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>60</real>
+	<real>64</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -567,13 +568,13 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>5.4859643554687496</real>
+	<real>5.94996435546875</real>
 	<key>tr</key>
 	<real>6.832545280456543</real>
 	<key>trNum</key>
 	<integer>116</integer>
 	<key>waveSamplingRate</key>
-	<real>50</real>
+	<real>250</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>

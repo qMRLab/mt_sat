@@ -207,16 +207,16 @@
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>578</integer>
+		<integer>849</integer>
 		<key>width</key>
-		<integer>1024</integer>
+		<integer>1419</integer>
 		<key>x</key>
-		<integer>0</integer>
+		<integer>197</integer>
 		<key>y</key>
-		<integer>318</integer>
+		<integer>208</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>60</real>
+	<real>64</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -243,7 +243,7 @@
 			<key>showYValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-272</real>
+			<real>-1</real>
 			<key>viewHeight</key>
 			<real>776</real>
 			<key>viewLeft</key>
@@ -271,7 +271,7 @@
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-468</real>
+			<real>-197</real>
 			<key>viewHeight</key>
 			<real>421</real>
 			<key>viewLeft</key>
@@ -291,7 +291,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-42</real>
+			<real>229</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -311,7 +311,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>351</real>
+			<real>622</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
@@ -359,7 +359,7 @@
 	<key>trNum</key>
 	<integer>0</integer>
 	<key>waveSamplingRate</key>
-	<real>100</real>
+	<real>250</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>
