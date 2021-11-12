@@ -75,7 +75,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 				<key>editableName</key>
 				<string>Cartesian Readout</string>
 				<key>fov</key>
-				<real>24</real>
+				<real>25.600000000000001</real>
 				<key>hasPhaseEncoding</key>
 				<integer>1</integer>
 				<key>hasRewinder</key>
@@ -105,7 +105,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 				<key>xReadoutOverlap</key>
 				<real>0.0</real>
 				<key>xRes</key>
-				<integer>240</integer>
+				<integer>256</integer>
 				<key>y0Component</key>
 				<real>0.0</real>
 				<key>y1Component</key>
@@ -117,7 +117,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 				<key>yReadoutOverlap</key>
 				<real>0.0</real>
 				<key>yRes</key>
-				<integer>240</integer>
+				<integer>256</integer>
 				<key>z0Component</key>
 				<real>0.0</real>
 				<key>z1Component</key>
@@ -139,7 +139,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutStart</string>
 					<key>position</key>
-					<real>0.81800001859664917</real>
+					<real>0.81400001049041748</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient</string>
@@ -176,7 +176,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutEnd</string>
 					<key>position</key>
-					<real>4.6579999923706055</real>
+					<real>4.9099998474121094</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient 1</string>
@@ -216,7 +216,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>repetitions</key>
-				<integer>240</integer>
+				<integer>256</integer>
 			</dict>
 			<dict>
 				<key>editableName</key>
@@ -313,7 +313,7 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 	<key>absoluteTime</key>
 	<real>797.7213134765625</real>
 	<key>activeInspector</key>
-	<integer>1</integer>
+	<integer>4</integer>
 	<key>appVersion</key>
 	<string>2.5.2</string>
 	<key>beginAtSS</key>
@@ -353,9 +353,9 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 		<key>width</key>
 		<integer>1024</integer>
 		<key>x</key>
-		<integer>-36</integer>
+		<integer>0</integer>
 		<key>y</key>
-		<integer>36</integer>
+		<integer>40</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>62.5</real>
@@ -567,11 +567,11 @@ SB['&lt;Phase Encode Gradient 1&gt;.res'] = SB['&lt;Phase Encode Gradient&gt;.re
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>3.0813134765624999</real>
+	<real>0.1613134765625</real>
 	<key>tr</key>
-	<real>6.0199999809265137</real>
+	<real>6.2740001678466797</real>
 	<key>trNum</key>
-	<integer>132</integer>
+	<integer>127</integer>
 	<key>waveSamplingRate</key>
 	<real>50</real>
 	<key>xPosition</key>
