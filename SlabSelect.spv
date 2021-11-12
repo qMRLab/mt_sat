@@ -24,7 +24,7 @@
 			<key>res</key>
 			<integer>114</integer>
 			<key>selectionStart</key>
-			<real>-6.619997501373291</real>
+			<real>-9.8303318023681641</real>
 		</dict>
 		<dict>
 			<key>editableName</key>
@@ -207,13 +207,13 @@
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>849</integer>
+		<integer>577</integer>
 		<key>width</key>
-		<integer>1419</integer>
+		<integer>1024</integer>
 		<key>x</key>
-		<integer>197</integer>
+		<integer>0</integer>
 		<key>y</key>
-		<integer>208</integer>
+		<integer>40</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>64</real>
@@ -243,7 +243,7 @@
 			<key>showYValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-1</real>
+			<real>-273</real>
 			<key>viewHeight</key>
 			<real>776</real>
 			<key>viewLeft</key>
@@ -271,7 +271,7 @@
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>-197</real>
+			<real>-469</real>
 			<key>viewHeight</key>
 			<real>421</real>
 			<key>viewLeft</key>
@@ -291,7 +291,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>229</real>
+			<real>-43</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -311,7 +311,7 @@
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>622</real>
+			<real>350</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
@@ -359,7 +359,7 @@
 	<key>trNum</key>
 	<integer>0</integer>
 	<key>waveSamplingRate</key>
-	<real>250</real>
+	<real>50</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>
@@ -369,7 +369,7 @@
 	<key>yVelocity</key>
 	<real>0.0</real>
 	<key>zPosition</key>
-	<real>-6.619997501373291</real>
+	<real>-9.8303318023681641</real>
 	<key>zVelocity</key>
 	<real>0.0</real>
 </dict>

@@ -314,7 +314,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>absoluteTime</key>
 	<real>798.92596435546875</real>
 	<key>activeInspector</key>
-	<integer>4</integer>
+	<integer>1</integer>
 	<key>appVersion</key>
 	<string>2.5.2</string>
 	<key>beginAtSS</key>
@@ -356,7 +356,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 		<key>x</key>
 		<integer>0</integer>
 		<key>y</key>
-		<integer>25</integer>
+		<integer>40</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>64</real>
@@ -568,13 +568,13 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>3.3619643554687499</real>
+	<real>2.1859643554687498</real>
 	<key>tr</key>
 	<real>5.4099998474121094</real>
 	<key>trNum</key>
 	<integer>147</integer>
 	<key>waveSamplingRate</key>
-	<real>250</real>
+	<real>50</real>
 	<key>xPosition</key>
 	<real>0.0</real>
 	<key>xVelocity</key>
