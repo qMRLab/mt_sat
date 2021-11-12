@@ -271,7 +271,7 @@ controlWidget.inputWidget_FOV.value   = startingFOV;
 // PDw and MTw
 controlWidget.inputWidget_TR.minimum = minTR + 15;
 controlWidget.inputWidget_TR.maximum = minTR + 30;
-controlWidget.inputWidget_TR.value   = 28;
+controlWidget.inputWidget_TR.value   = 32;
 
 // T1w
 controlWidget.inputWidget_TRT1.minimum = minTR;
@@ -289,7 +289,7 @@ controlWidget.inputWidget_FA2.value   = startingFA1;
 
 controlWidget.inputWidget_TE.minimum = minTE;
 controlWidget.inputWidget_TE.maximum = 8;
-controlWidget.inputWidget_TE.value   = 3;
+controlWidget.inputWidget_TE.value   = 4;
 
 function attenuationClicked(chck){
 
@@ -384,7 +384,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   
   var mtwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD);
   var mtwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.028, MTState: "True", MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
+  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.32, MTState: "True", MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
   var mtwGroup = new RthUpdateGroup([mtwCommand1, mtwCommand2, mtwCommand3, mtwCommand4, mtwCommand5]);
   
   // PDW
@@ -392,7 +392,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   var pdwCommand2 = new RthUpdateEnableBlockCommand(sequenceId, "mt2000", false);
   var pdwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD); 
   var pdwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var pdwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "off", FlipIndex: "01", RepetitionTime: 0.028, MTState: "False"});
+  var pdwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "off", FlipIndex: "01", RepetitionTime: 0.032, MTState: "False"});
   var pdwGroup = new RthUpdateGroup([pdwCommand1, pdwCommand2, pdwCommand3, pdwCommand4, pdwCommand5]);
   
   // T1w
@@ -423,7 +423,7 @@ function changeOffset(offsetIndex){
   //RTHLOGGER_WARNING("Selected Offset" + idx);
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXED PARAMS FOR NOW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  mtsLoopCommands(28000,18000,offsetIndex)
+  mtsLoopCommands(32000,18000,offsetIndex)
 }
 
 // Connect UI elements to the callback functions.
