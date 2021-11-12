@@ -94,7 +94,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>samplingRate</key>
-				<real>64</real>
+				<real>60</real>
 				<key>x0Component</key>
 				<real>1</real>
 				<key>x1Component</key>
@@ -140,7 +140,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutStart</string>
 					<key>position</key>
-					<real>0.81599998474121094</real>
+					<real>0.81199997663497925</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient</string>
@@ -177,7 +177,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutEnd</string>
 					<key>position</key>
-					<real>4.8159999847412109</real>
+					<real>5.0786666870117188</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient 1</string>
@@ -352,14 +352,14 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 		<key>height</key>
 		<integer>576</integer>
 		<key>width</key>
-		<integer>1024</integer>
+		<integer>957</integer>
 		<key>x</key>
-		<integer>-138</integer>
+		<integer>-35</integer>
 		<key>y</key>
 		<integer>41</integer>
 	</dict>
 	<key>maxReadoutRate</key>
-	<real>64</real>
+	<real>60</real>
 	<key>nominalGradLimitScale</key>
 	<real>1</real>
 	<key>numRfRxChannels</key>
@@ -568,11 +568,11 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>1.70596435546875</real>
+	<real>4.3459643554687499</real>
 	<key>tr</key>
-	<real>6.179999828338623</real>
+	<real>6.444666862487793</real>
 	<key>trNum</key>
-	<integer>129</integer>
+	<integer>123</integer>
 	<key>waveSamplingRate</key>
 	<real>50</real>
 	<key>xPosition</key>
