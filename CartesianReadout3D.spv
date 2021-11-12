@@ -76,7 +76,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>editableName</key>
 				<string>Cartesian Readout</string>
 				<key>fov</key>
-				<real>48</real>
+				<real>25.600000000000001</real>
 				<key>hasPhaseEncoding</key>
 				<integer>1</integer>
 				<key>hasRewinder</key>
@@ -140,7 +140,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutStart</string>
 					<key>position</key>
-					<real>0.55800002813339233</real>
+					<real>0.81599998474121094</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient</string>
@@ -177,7 +177,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutEnd</string>
 					<key>position</key>
-					<real>4.5580000877380371</real>
+					<real>4.8159999847412109</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient 1</string>
@@ -314,7 +314,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>absoluteTime</key>
 	<real>798.92596435546875</real>
 	<key>activeInspector</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>appVersion</key>
 	<string>2.5.2</string>
 	<key>beginAtSS</key>
@@ -354,9 +354,9 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 		<key>width</key>
 		<integer>1024</integer>
 		<key>x</key>
-		<integer>0</integer>
+		<integer>-138</integer>
 		<key>y</key>
-		<integer>40</integer>
+		<integer>41</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>64</real>
@@ -568,11 +568,11 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>2.1859643554687498</real>
+	<real>1.70596435546875</real>
 	<key>tr</key>
-	<real>5.4099998474121094</real>
+	<real>6.179999828338623</real>
 	<key>trNum</key>
-	<integer>147</integer>
+	<integer>129</integer>
 	<key>waveSamplingRate</key>
 	<real>50</real>
 	<key>xPosition</key>
