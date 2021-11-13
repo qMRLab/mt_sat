@@ -414,7 +414,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   // so that the pre-scan is set with reference to that. Note that manual attenuation value
   // may need to be set on GE manually to avoid clipping (probably 9+ DB in 3D phantom). If that's the case,
   // it is important to set it with FA 20 image as a reference.
-  var loopCommands = [t1wGroup, mtwGroup, pdwGroup];
+  var loopCommands = [t1wGroup,pdwGroup,mtwGroup];
   
   rth.setLoopCommands(sequenceId, "mtsatloop", loopCommands);
   }
