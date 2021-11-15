@@ -384,7 +384,7 @@ function mtsLoopCommands(TRPD,TRT1,offsetIndex){
   
   var mtwCommand3 = new RthUpdateIntParameterCommand(sequenceId, "", "setDesiredTR", "", TRPD);
   var mtwCommand4 = new  RthUpdateFloatParameterCommand(sequenceId, "excitation", "scaleRF", "", flipAngle2/flipAngle1); // Small
-  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.32, MTState: "True", MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
+  var mtwCommand5 = new RthUpdateChangeMRIParameterCommand(sequenceId,{FlipAngle: flipAngle2, MTIndex: "on",FlipIndex: "01", RepetitionTime: 0.032, MTState: "True", MTOffsetFrequency: offsetFreq, MTPulseDuration: duration, MTPulseShape: "Fermi"});
   var mtwGroup = new RthUpdateGroup([mtwCommand1, mtwCommand2, mtwCommand3, mtwCommand4, mtwCommand5]);
   
   // PDW
