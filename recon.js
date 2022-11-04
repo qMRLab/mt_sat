@@ -440,7 +440,7 @@ this.imageExport.observeKeys([
 
 this.imageExport.observedKeysChanged.connect(function(keys){
 
-    var exportDirectory = "qMRLabAcq/rthRecon/";
+    var exportDirectory = "acqVENUS/rthRecon/";
     var flipIndex = keys["mri.FlipIndex"];
     var MTIndex = keys["mri.MTIndex"];
     var subjectBIDS  = "sub-" + keys["mri.SubjectBIDS"];
@@ -466,7 +466,7 @@ this.imageExport.observedKeysChanged.connect(function(keys){
     "mri.MTIndex"
   ]);
   this.imageExportRaw.observedKeysChanged.connect(function(keys){
-    var exportDirectoryRaw = "qMRLabAcq/rthRaw/";
+    var exportDirectoryRaw = "acqVENUS/rthRaw/";
     var flipIndex = keys["mri.FlipIndex"];
     var MTIndex = keys["mri.MTIndex"];
     var subjectBIDS  = "sub-" + keys["mri.SubjectBIDS"];

@@ -10,7 +10,7 @@ No special configuration is required.
 2. Create the following folders and subfolders under `HeartVista/Storage` directory
 ```
 ├── /RawImage
-    └── /qMRLabAcq  
+    └── /acqVENUS  
         ├── /rthRecon
         └── /rthRaw 
 ```
