@@ -153,7 +153,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>res</key>
-				<integer>20</integer>
+				<integer>60</integer>
 				<key>x0Component</key>
 				<real>0.0</real>
 				<key>xDurationOverlap</key>
@@ -190,7 +190,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>res</key>
-				<integer>20</integer>
+				<integer>60</integer>
 				<key>x0Component</key>
 				<real>0.0</real>
 				<key>xDurationOverlap</key>
@@ -260,7 +260,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>repetitions</key>
-				<integer>20</integer>
+				<integer>60</integer>
 			</dict>
 			<dict>
 				<key>editableName</key>
@@ -352,11 +352,11 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 		<key>height</key>
 		<integer>740</integer>
 		<key>width</key>
-		<integer>1099</integer>
+		<integer>1155</integer>
 		<key>x</key>
-		<integer>123</integer>
+		<integer>0</integer>
 		<key>y</key>
-		<integer>118</integer>
+		<integer>137</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>60</real>
