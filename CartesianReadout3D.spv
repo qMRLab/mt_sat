@@ -76,7 +76,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>editableName</key>
 				<string>Cartesian Readout</string>
 				<key>fov</key>
-				<real>25.600000000000001</real>
+				<real>32</real>
 				<key>hasPhaseEncoding</key>
 				<integer>1</integer>
 				<key>hasRewinder</key>
@@ -106,7 +106,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>xReadoutOverlap</key>
 				<real>0.0</real>
 				<key>xRes</key>
-				<integer>256</integer>
+				<integer>320</integer>
 				<key>y0Component</key>
 				<real>0.0</real>
 				<key>y1Component</key>
@@ -118,7 +118,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>yReadoutOverlap</key>
 				<real>0.0</real>
 				<key>yRes</key>
-				<integer>256</integer>
+				<integer>320</integer>
 				<key>z0Component</key>
 				<real>0.0</real>
 				<key>z1Component</key>
@@ -140,7 +140,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutStart</string>
 					<key>position</key>
-					<real>0.81199997663497925</real>
+					<real>0.80400002002716064</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient</string>
@@ -177,7 +177,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 					<key>anchoredToSBKey</key>
 					<string>&lt;Cartesian Readout&gt;.readoutEnd</string>
 					<key>position</key>
-					<real>5.0786666870117188</real>
+					<real>6.1373333930969238</real>
 				</dict>
 				<key>editableName</key>
 				<string>Phase Encode Gradient 1</string>
@@ -217,7 +217,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 				<key>pluginVersion</key>
 				<integer>1</integer>
 				<key>repetitions</key>
-				<integer>256</integer>
+				<integer>320</integer>
 			</dict>
 			<dict>
 				<key>editableName</key>
@@ -314,7 +314,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>absoluteTime</key>
 	<real>798.92596435546875</real>
 	<key>activeInspector</key>
-	<integer>2</integer>
+	<integer>1</integer>
 	<key>appVersion</key>
 	<string>2.5.2</string>
 	<key>beginAtSS</key>
@@ -350,13 +350,13 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>mainWindowFrame</key>
 	<dict>
 		<key>height</key>
-		<integer>576</integer>
+		<integer>740</integer>
 		<key>width</key>
-		<integer>957</integer>
+		<integer>1099</integer>
 		<key>x</key>
-		<integer>-35</integer>
+		<integer>123</integer>
 		<key>y</key>
-		<integer>41</integer>
+		<integer>118</integer>
 	</dict>
 	<key>maxReadoutRate</key>
 	<real>60</real>
@@ -386,7 +386,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>showYValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>244</real>
+			<real>408</real>
 			<key>viewHeight</key>
 			<real>253</real>
 			<key>viewLeft</key>
@@ -414,7 +414,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>showValues</key>
 			<integer>0</integer>
 			<key>viewBottom</key>
-			<real>15</real>
+			<real>179</real>
 			<key>viewHeight</key>
 			<real>402</real>
 			<key>viewLeft</key>
@@ -434,7 +434,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-238</real>
+			<real>-74</real>
 			<key>viewHeight</key>
 			<real>48</real>
 			<key>viewLeft</key>
@@ -454,7 +454,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>349</real>
+			<real>513</real>
 			<key>viewHeight</key>
 			<real>153</real>
 			<key>viewLeft</key>
@@ -474,7 +474,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>246</real>
+			<real>410</real>
 			<key>viewHeight</key>
 			<real>251</real>
 			<key>viewLeft</key>
@@ -502,7 +502,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>showValues</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>-386</real>
+			<real>-222</real>
 			<key>viewHeight</key>
 			<real>676</real>
 			<key>viewLeft</key>
@@ -526,7 +526,7 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 			<key>pluginVersion</key>
 			<integer>1</integer>
 			<key>viewBottom</key>
-			<real>78</real>
+			<real>242</real>
 			<key>viewHeight</key>
 			<real>223</real>
 			<key>viewLeft</key>
@@ -568,11 +568,11 @@ SB.message(SB['&lt;Phase Encode Gradient 1&gt;.duration']);</string>
 	<key>t2</key>
 	<real>150</real>
 	<key>timeWithinTr</key>
-	<real>4.3459643554687499</real>
+	<real>1.8059643554687499</real>
 	<key>tr</key>
-	<real>6.444666862487793</real>
+	<real>7.5113334655761719</real>
 	<key>trNum</key>
-	<integer>123</integer>
+	<integer>106</integer>
 	<key>waveSamplingRate</key>
 	<real>50</real>
 	<key>xPosition</key>
